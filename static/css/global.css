@@ -18,7 +18,7 @@ sup{vertical-align:baseline;}
 sub{vertical-align:baseline;}
 legend{color:#000;}
 input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:normal;font-weight:normal; outline:none;}
-input,button,textarea,select{*font-size:100%;}
+input,button,textarea,select{*font-size:100%;resize: none!important;}
 textarea { resize:none;}
 i, em, strong { font-style:normal;}
 

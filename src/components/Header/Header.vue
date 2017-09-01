@@ -10,8 +10,8 @@
           <li class="magictime" v-bind:class="{spaceInDown:isOpen}">法律</li>
         </ul>
       </nav>
-    <section class="relogin">
-      <p><span>注册</span></p><p>/<p><span>登陆</span></p>
+    <section class="relogin" id="s">
+      <p><span><router-link :to="{ name: 'Publish'}">发布</router-link></span></p><p>/<p><span><router-link :to="{ name: 'Login'}">登陆</router-link></span></p>
     </section>
     <section class="canvas-wrap">
       <div id="canvas" class="gradient"></div>
@@ -26,6 +26,7 @@
   </div>
 </template>
 <script>
+  import $ from 'jQuery';
   export default {
       data(){
           return { show:false,isOpen:false}

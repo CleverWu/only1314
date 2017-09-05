@@ -11,7 +11,9 @@
         </ul>
       </nav>
     <section class="relogin" id="s">
-      <p><span><router-link :to="{ name: 'Publish'}">发布</router-link></span></p><p>/<p><span><router-link :to="{ name: 'Login'}">登陆</router-link></span></p>
+      <p><span v-if="username==' '"><router-link :to="{ name: 'Login'}">登陆</router-link></span><span v-html="username"></span></p>
+      <p v-if="username!=' '" class="ml5" @click="loginOut"><i class="iconfont icon-tuichu"></i></p>
+    <!--  <p><span  v-if="username"><router-link :to="{ name: 'Publish'}">发布</router-link></span></p>-->
     </section>
     <section class="canvas-wrap">
       <div id="canvas" class="gradient"></div>
@@ -33,10 +35,27 @@
       },
     mounted: function () {
      this.isOpen=true;
+     /* console.log(JSON.parse(this.$store.state.userInfo.userInfo).username)*/
+    },
+    methods:{
+      loginOut(){
+        this.$store.commit('clearUserInfo');
+      }
+    },
+    computed: {
+      username () {
+          if(this.$store.state.userInfo.userInfo){
+            return '欢迎回来,'+JSON.parse(this.$store.state.userInfo.userInfo).username
+          }else{
+            return ' '
+          }
+      }
     }
   }
 </script>
 <style scoped>
+  a{text-decoration: none;color: #ffffff}
+  a:hover{color: #ff4169;transform: scale(1.2,1.2)}
   .relogin{
     position: absolute;
     right: 20px;
@@ -67,6 +86,9 @@
     height: 400px;
     width: 100%;
 
+  }
+  .icon-tuichu{
+    font-size: 18px;
   }
   .header{
     overflow: hidden;

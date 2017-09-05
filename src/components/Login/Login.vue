@@ -9,44 +9,49 @@
         <h1 class="title">登陆</h1>
         <form>
           <div class="input-container">
-            <input type="text" id="as" required="required"/>
-            <label>用户名</label>
-            <div class="bar"></div>
+            <input type="text" v-model="login.username" v-verify.login="login.username"/>
+            <label class="lab" v-bind:class="login.username!=''?'active':''">用户名</label>
+            <div v-remind="login.username" class="bar"></div>
           </div>
           <div class="input-container">
-            <input type="text" id="sss" required="required"/>
-            <label>密码</label>
-            <div class="bar"></div>
+            <input type="password" v-model="login.pwd" v-verify.login="login.pwd" />
+            <label class="lab" v-bind:class="login.pwd!=''?'active':''">密码</label>
+            <div v-remind="login.pwd" class="bar"></div>
           </div>
           <div class="button-container">
-            <button><span>确定</span></button>
+            <button @click="sureLogin"><span>确定</span></button>
           </div>
           <div class="footer">忘记密码？</div>
         </form>
       </div>
       <div class="card alt">
         <div class="toggle" @click="changeRegist"><span>注册</span></div>
-        <h1 class="title">Register
-          <div class="close" @click="changeLogin"></div>
+        <h1 class="title">注册
+          <div class="close magictime" @click="changeLogin"></div>
         </h1>
         <form>
           <div class="input-container">
-            <input type="text" id="ll" required="required"/>
-            <label>Username</label>
-            <div class="bar"></div>
+            <input type="text" v-model="regist.username"  v-verify.regist="regist.username"/>
+            <label class="lab" v-bind:class="regist.username!=''?'active':''">用户名:</label>
+            <div v-remind="regist.username" class="bar"></div>
           </div>
           <div class="input-container">
-            <input type="text" id="#lls" required="required"/>
-            <label >Password</label>
-            <div class="bar"></div>
+            <input type="text" v-model="regist.phone" v-verify.regist="regist.phone"/>
+            <label class="lab" v-bind:class="regist.phone!=''?'active':''">手机号码:</label>
+            <div v-remind="regist.phone" class="bar"></div>
           </div>
           <div class="input-container">
-            <input type="text" id="#sssss" required="required"/>
-            <label>Repeat Password</label>
-            <div class="bar"></div>
+            <input type="password" v-model="regist.pwd" v-verify.regist="regist.pwd"/>
+            <label class="lab" v-bind:class="regist.pwd!=''?'active':''">密码</label>
+            <div v-remind="regist.pwd" class="bar"></div>
           </div>
+        <!--  <div class="input-container">
+            <input type="password" v-model="regist.pwd_repeat" v-verify="regist.pwd_repeat"/>
+            <label class="lab">重复密码</label>
+            <div v-remind="regist.pwd_repeat" class="bar"></div>
+          </div>-->
           <div class="button-container">
-            <button><span>Next</span></button>
+            <button v-if="isOpen" @click="sureRegist"><span>确定</span></button>
           </div>
         </form>
       </div>
@@ -54,27 +59,137 @@
   </div>
 </template>
 <script>
+  import Vue from "vue";
+  import verify from "vue-verify-plugin";
+  import Router from 'vue-router';
+  var router=new Router();
+  Vue.use(verify,{
+    blur:true
+  });
   export default {
     data() {
       return {
-       isOpen:false
+        changeStatus:false,
+        isOpen:false,
+        login:{
+          username:'',
+          pwd:''
+        },
+        regist:{
+          username:'',
+          phone:'',
+          pwd:''
+        }
+
       }
+    },
+    verify: {
+     regist:{
+         username: [
+           "required",
+           {
+             minLength:2,
+             message: "姓名不得小于两位"
+           },
+           {
+             maxLength:5,
+             message: "姓名不得大于5位"
+           }
+         ],
+       phone:["required","mobile"],
+       pwd: {
+         minLength:6,
+         message: "密码不得小于6位"
+       }
+     },
+      login:{
+        username: [
+          "required",
+          {
+            minLength:2,
+            message: "姓名不得小于两位"
+          },
+          {
+            maxLength:5,
+            message: "姓名不得大于5位"
+          }
+        ],
+        pwd: {
+          minLength:6,
+          message: "密码不得小于6位"
+        }
+      }
+
     },
     mounted: function () {
       this.$refs.login.style.height = window.innerHeight + 'px';
     },
     methods:{
         changeRegist () {
-          this.isOpen=true
+          this.isOpen=true;
         },
       changeLogin () {
-        this.isOpen=false
+        this.isOpen=false;
+      },
+      sureRegist(){
+        if(this.$verify.check("regist")===true){
+          var data={
+            username:this.regist.username,
+            password:this.regist.pwd
+          }
+          this.$http.post('http://localhost:8081/regist', data)
+            .then(response => {
+              this.$store.commit('setUserInfo',JSON.stringify(response.data));
+              this.$message({
+                showClose: false,
+                message: '恭喜你，注册成功',
+                type: 'success',
+                duration:1000
+              });
+              setTimeout(function () {
+                router.push({ path: '/' })
+              },1000)
+
+              console.log(response.data.username);
+              // success callback
+            }, response => {
+              console.log("no")
+            })
+        }
+      },
+      sureLogin(){
+        if(this.$verify.check("login")===true){
+          var data={
+            username:this.login.username,
+            password:this.login.pwd
+          }
+          this.$http.post('http://localhost:8081/login', data)
+            .then(response => {
+              console.log(response)
+              this.$store.commit('setUserInfo',JSON.stringify(response.data));
+              this.$message({
+                showClose: false,
+                message: '登陆成功',
+                type: 'success',
+                duration:1000
+              });
+              setTimeout(function () {
+                router.push({ path: '/' })
+              },1000)
+
+              console.log(response.data.username);
+              // success callback
+            }, response => {
+              console.log("no")
+            })
+        }
       }
     }
   }
 </script>
 <style scoped>
-  .login{width: 100%;height: 100%;background-color: saddlebrown}
+  .login{width: 100%;height: 100%;background-color: #ff794c;
+    background:-webkit-gradient(linear, right bottom, right top, from(rgba(254,82,52,1)), to(rgba(255,121,76,1)));}
   body {
     background: #e9e9e9;
     color: #666666;
@@ -83,7 +198,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
+  .bar.active{
+    background: red!important;
+  }
   /* Pen Title */
   .pen-title {
     padding: 50px 0;
@@ -166,12 +283,7 @@
 
   /* Container */
   .container {
-    position: relative;
-    max-width: 460px;
-    width: 100%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    width: 480px;
   }
   .container.active .card:first-child {
     background: #f2f2f2;
@@ -182,22 +294,22 @@
     margin: 0 10px;
   }
   .container.active .card.alt {
-    top: 20px;
-    right: 0;
-    width: 100%;
-    min-width: 100%;
+    width: 480px;
     height: auto;
     border-radius: 5px;
     padding: 60px 0 40px;
     overflow: hidden;
+    text-align: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
   .container.active .card.alt .toggle {
     position: absolute;
-    top: 40px;
-    right: -70px;
     box-shadow: none;
-    -webkit-transform: scale(10);
-    transform: scale(10);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(10);
     -webkit-transition: -webkit-transform .3s ease;
     transition: -webkit-transform .3s ease;
     transition: transform .3s ease;
@@ -241,7 +353,7 @@
 
   /* Card */
   .card {
-    position: relative;
+    position: absolute;
     background: #ffffff;
     border-radius: 5px;
     padding: 60px 0 40px 0;
@@ -249,6 +361,9 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     -webkit-transition: .3s ease;
     transition: .3s ease;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     /* Title */
     /* Inputs */
     /* Button */
@@ -290,14 +405,15 @@
     font-weight: 400;
   }
   .card .input-container input:focus ~ label {
-    color: #9d9d9d;
+    color: #FFC0CB;
     -webkit-transform: translate(-12%, -50%) scale(0.75);
     transform: translate(-12%, -50%) scale(0.75);
   }
   .card .input-container input:focus ~ .bar:before, .card .input-container input:focus ~ .bar:after {
     width: 50%;
+    color: #ff4163;
   }
-  .card .input-container input:valid ~ label {
+  .card .input-container .lab.active {
     color: #9d9d9d;
     -webkit-transform: translate(-12%, -50%) scale(0.75);
     transform: translate(-12%, -50%) scale(0.75);
@@ -306,7 +422,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    color: #757575;
+    color: #FFC0CB;
     font-size: 16px;
     font-weight: 300;
     line-height: 60px;
@@ -317,9 +433,10 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    background: #757575;
+    background: #FFC0CB;
     width: 100%;
     height: 1px;
+    color: rgb(255, 65, 99);
   }
   .card .input-container .bar:before, .card .input-container .bar:after {
     content: '';
@@ -397,7 +514,7 @@
   .card .footer {
     margin: 40px 0 0;
     color: #d3d3d3;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 300;
     text-align: center;
   }
@@ -429,15 +546,18 @@
     /* Button */
   }
   .card.alt .toggle {
-    position: relative;
+    position: absolute;
     background: #FFC0CB;
-    width: 140px;
-    height: 140px;
+    width: 70px;
+    height: 70px;
+    right: -170px;
+    top: 285px;
     border-radius: 100%;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     color: #ffffff;
-    font-size: 20px;
-    line-height: 140px;
+    font-size: 18px;
+    line-height: 70px;
     text-align: center;
     cursor: pointer;
   }

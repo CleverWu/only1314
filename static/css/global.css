@@ -1,10 +1,17 @@
 @charset "utf-8";
-@import url('https://at.alicdn.com/t/font_401627_82o7jjhvbjk5u3di.css');
+@import url('https://at.alicdn.com/t/font_401627_1bfyr6f8dzzuayvi.css');
+/*@font-face {
+  font-family: newfont;
+  src: url("new.ttf") !* TTF file for CSS3 browsers *!
+}
+*{
+  font-family: newfont;
+}*/
 /* CSS Document */
 
 /* CSS重置 */
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
-body{ font-size:12px; line-height:24px; font-family:Tahoma, Arial, SimSun, "宋体", "Microsoft YaHei", "微软雅黑", SimHei, "黑体"; background:#fff; color:#333; -webkit-text-size-adjust:100%;min-width: 1280px;}
+body{ font-size:12px; line-height:24px; font-family:newfont,Tahoma, Arial, SimSun, "宋体", "Microsoft YaHei", "微软雅黑", SimHei, "黑体"; background:#fff; color:#333; -webkit-text-size-adjust:100%;min-width: 1280px;}
 table { border-collapse:collapse; border-spacing:0;}
 fieldset,img { border:0;}
 address,caption,cite,code,dfn,em,strong,th,var,optgroup { font-style:normal; font-weight: normal;}

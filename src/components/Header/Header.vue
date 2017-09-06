@@ -13,7 +13,7 @@
     <section class="relogin" id="s">
       <p><span v-if="username==' '"><router-link :to="{ name: 'Login'}">登陆</router-link></span><span v-html="username"></span></p>
       <p v-if="username!=' '" class="ml5" @click="loginOut"><i class="iconfont icon-tuichu"></i></p>
-    <!--  <p><span  v-if="username"><router-link :to="{ name: 'Publish'}">发布</router-link></span></p>-->
+      <p class="ml10" v-if="username!=' '"><span><router-link :to="{ name: 'Publish'}"><i class="iconfont icon-fabu"></i></router-link></span></p>
     </section>
     <section class="canvas-wrap">
       <div id="canvas" class="gradient"></div>
@@ -29,6 +29,7 @@
 </template>
 <script>
   import $ from 'jQuery';
+  import handle from '../../CommonJs/CommonJs';
   export default {
       data(){
           return { show:false,isOpen:false}
@@ -39,7 +40,10 @@
     },
     methods:{
       loginOut(){
-        this.$store.commit('clearUserInfo');
+          var _that=this;
+          handle.tips_confirm(this,'真的要离开了吗，再给个机会可好？',function () {
+            _that.$store.commit('clearUserInfo');
+          },'伤心提示o(╥﹏╥)o')
       }
     },
     computed: {

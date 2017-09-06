@@ -29,7 +29,7 @@
   .subBox{
     padding: 0px 20px;
     width: 100%;
-    height: 900px;
+    /*height: 540px;*/
   }
   .b-E4B578{background-color: #E4B578}
   .el-row {

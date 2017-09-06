@@ -19,7 +19,7 @@
             <div v-remind="login.pwd" class="bar"></div>
           </div>
           <div class="button-container">
-            <button @click="sureLogin"><span>确定</span></button>
+            <button @click.stop.prevent="sureLogin"><span>确定</span></button>
           </div>
           <div class="footer">忘记密码？</div>
         </form>
@@ -51,7 +51,7 @@
             <div v-remind="regist.pwd_repeat" class="bar"></div>
           </div>-->
           <div class="button-container">
-            <button v-if="isOpen" @click="sureRegist"><span>确定</span></button>
+            <button v-if="isOpen" @click.stop.prevent="sureRegist"><span>确定</span></button>
           </div>
         </form>
       </div>
@@ -62,6 +62,7 @@
   import Vue from "vue";
   import verify from "vue-verify-plugin";
   import Router from 'vue-router';
+  import handle from '../../CommonJs/CommonJs'
   var router=new Router();
   Vue.use(verify,{
     blur:true
@@ -165,22 +166,20 @@
           }
           this.$http.post('http://localhost:8081/login', data)
             .then(response => {
-              console.log(response)
-              this.$store.commit('setUserInfo',JSON.stringify(response.data));
-              this.$message({
-                showClose: false,
-                message: '登陆成功',
-                type: 'success',
-                duration:1000
-              });
-              setTimeout(function () {
-                router.push({ path: '/' })
-              },1000)
-
-              console.log(response.data.username);
+              if(response.data.status=='200'){
+                this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
+                handle.tips_success(this,'登陆成功(〃"▽"〃)')
+                setTimeout(function () {
+                  router.push({ path: '/' })
+                },1000)
+              }else{
+                console.log(this)
+                this.$store.commit('clearUserInfo');
+                handle.tips_warn(this,response.data.message)
+              }
               // success callback
             }, response => {
-              console.log("no")
+              console.log("错误提示",response)
             })
         }
       }

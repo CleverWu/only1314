@@ -7,7 +7,7 @@
       <div class="card"></div>
       <div class="card">
         <h1 class="title">登陆</h1>
-        <form>
+        <form autocomplete="off">
           <div class="input-container">
             <input type="text" v-model="login.username" v-verify.login="login.username"/>
             <label class="lab" v-bind:class="login.username!=''?'active':''">用户名</label>
@@ -36,9 +36,9 @@
             <div v-remind="regist.username" class="bar"></div>
           </div>
           <div class="input-container">
-            <input type="text" v-model="regist.phone" v-verify.regist="regist.phone"/>
-            <label class="lab" v-bind:class="regist.phone!=''?'active':''">手机号码:</label>
-            <div v-remind="regist.phone" class="bar"></div>
+            <input type="text" v-model="regist.phone"/>
+            <label class="lab">手机号码:</label>
+            <div class="bar"></div>
           </div>
           <div class="input-container">
             <input type="password" v-model="regist.pwd" v-verify.regist="regist.pwd"/>
@@ -97,7 +97,7 @@
              message: "姓名不得大于5位"
            }
          ],
-       phone:["required","mobile"],
+       /*phone:["required","mobile"],*/
        pwd: {
          minLength:6,
          message: "密码不得小于6位"
@@ -138,7 +138,7 @@
             username:this.regist.username,
             password:this.regist.pwd
           }
-          this.$http.post('http://localhost:8081/regist', data)
+          this.$http.post('https://api.only1314.cn/regist', data)
             .then(response => {
               this.$store.commit('setUserInfo',JSON.stringify(response.data));
               this.$message({
@@ -164,6 +164,7 @@
             username:this.login.username,
             password:this.login.pwd
           }
+         /* this.$http.post('https://api.only1314.cn/login', data)*/
           this.$http.post('http://localhost:8081/login', data)
             .then(response => {
               if(response.data.status=='200'){

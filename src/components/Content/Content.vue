@@ -2,63 +2,32 @@
 
   <div class="content">
       <div class="box clearfix">
-        <div class="slideLeft">
-          <div class="list-item">
-            <h3><img src="/static/images/photo.png">我的第一个博客</h3>
-            <div class="list-item-content">
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博
-            </div>
-
-          </div>
-          <div class="list-item">
-            <h3><img src="/static/images/photo.png">我的第一个博客</h3>
-            <div class="list-item-content">
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博
-            </div>
-
-          </div>
-          <div class="list-item">
-            <h3><img src="/static/images/photo.png">我的第一个博客</h3>
-            <div class="list-item-content">
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博
-            </div>
-
-          </div>
-          <div class="list-item">
-            <h3><img src="/static/images/photo.png">我的第一个博客</h3>
-            <div class="list-item-content">
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博客；你开始了吗？dssfdsssssssssssssssssssssssssssssss
-              我的第一个博
-            </div>
-
-          </div>
+        <div class="slideLeft clearfix">
+              <div class="list-item" v-for="item in articleLists">
+                <div class="item-head clearfix">
+                  <img class="item-head-img" src="/static/images/photo.png">
+                  <div class="item-head-info">
+                    <h3>{{item.companyName}}</h3>
+                    <p>{{item.publishdate}}</p>
+                  </div>
+                </div>
+                <div class="list-item-content">
+                  {{item.desc}}
+                </div>
+                <div class="item-img">
+                  <img src="/static/images/bg_2.jpg">
+                </div>
+                <div class="list-item-footer clearfix">
+                  <ul>
+                    <li>更多</li>
+                    <li>1回复</li>
+                    <li>1赞</li>
+                  </ul>
+                  <ul>
+                    <li>{{item.region}}</li>
+                  </ul>
+                </div>
+              </div>
         </div>
         <div class="slideRight">
           <el-collapse v-model="activeName" accordion>
@@ -90,16 +59,32 @@
     data() {
       return {
         activeName: '1',
-        isOpen:false
+        isOpen:false,
+        articleLists:[]
       };
     },
     components:{'sub-box':SubBox,'sub-box-s1':SubBoxS1},
     mounted: function () {
       this.isOpen=true;
+      this.$nextTick(function () {
+        this.$http.post('https://api.only1314.cn/getArticleList', {})
+          .then(response => {
+              console.log(response)
+            this.articleLists=response.data.data;
+            // success callback
+          }, response => {
+            console.log("no")
+          })
+      })
     }
   }
 </script>
 <style scoped>
+  .test{
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
   *{box-sizing: border-box}
   .content {
     width: 100%;
@@ -119,6 +104,7 @@
    /* height: 812px;*/
     background-color:#333333;
     padding: 30px 10px;
+    min-height: 400px;
   }
 
   .slideRight {
@@ -127,60 +113,101 @@
     right: 0;
     width: 400px;
     /*height: 812px;*/
-    padding: 30px 10px;
+    padding: 40px 10px;
     box-sizing: border-box;
     background-color:#333333;
   }
   .list-item{
     background-color: #ffffff;
-    width: 90%;
+    width: 32.666%;
     border-radius: 5px;
-    margin: 10px auto;
-    padding: 10px;
+    margin: 10px 1% 10px 0px;
     box-sizing: border-box;
     text-align: left;
+    float: left;
+    display: inline-block;
     cursor: pointer;
   }
-  .list-item:first-child{
-    margin-top: 0px;
-    cursor: pointer;
+  .list-item:nth-child(3n){
+    margin-right: 0%;
   }
-  .list-item h3{
-    color: #333333;
-    font-weight: 600;
-    font-size: 20px;
+  .item-head{
+    padding: 20px 20px 0px 20px;
   }
+
   .list-item-content{
     /* padding: 10px 0px; */
     line-height: 1.3;
     /* margin: 10px 0px; */
     color: #999999;
-    font-size: 16px;
-    margin-left: 68px;
-    margin-top: -10px;
+    font-size: 12px;
     word-break: break-all;
     display: -webkit-box;
-    -webkit-line-clamp: 9;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    margin: 10px 0px;
+    padding: 0px 20px;
+    min-height: 30px;
+
+  }
+  .item-img{
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-bottom: 1px dashed #dddddd;
+  }
+  .item-img img{
+    width: 100%;
   }
   .list-item-footer{
     /*height: 30px;
     line-height: 30px;*/
-    height: 60px;
-    line-height: 60px;
+   /* line-height: 60px;*/
+    padding: 10px 20px;
   }
-  .list-item-footer ul li{
+  .list-item-footer ul:first-child li{
     float: left;
     margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    padding: 0 8px 0 10px;
+    color: #777;
   }
-  .list-item h3 img{
+  .list-item-footer ul:first-child li:hover{
+    border: 1px solid #ff7f0d;
+  }
+  .list-item-footer ul:last-child li{
+    float: right;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+    padding: 0 8px 0 10px;
+    max-width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: #efefef;
+  }
+  .item-head-img{
     width: 60px;
     height: 60px;
     border-radius: 100px;
-    margin-right: 10px;
+    float: left;
   }
-  .list-item h3>*{
-    vertical-align: middle;
+  .item-head-info{
+    float: left;
+    height: 60px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    margin-left: 10px;
+  }
+  .item-head-info h3{
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .item-head-info p{
+    color: #999;
   }
 </style>

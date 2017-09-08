@@ -164,8 +164,8 @@
             username:this.login.username,
             password:this.login.pwd
           }
-         /* this.$http.post('https://api.only1314.cn/login', data)*/
-          this.$http.post('http://localhost:8081/login', data)
+          this.$http.post('https://api.only1314.cn/login', data)
+         /* this.$http.post('http://localhost:8081/login', data)*/
             .then(response => {
               if(response.data.status=='200'){
                 this.$store.commit('setUserInfo',JSON.stringify(response.data.data));

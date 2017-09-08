@@ -1,12 +1,13 @@
 <template>
-  <div>
-    <app-header></app-header>
-    <div class="baktop clearfix">
-      <img class="animal" src="/static/images/animal.png">
+  <div  v-loading.fullscreen.lock="fullscreenLoading">
+    <div>
+      <app-header></app-header>
+      <div class="baktop clearfix">
+        <img class="animal" src="/static/images/animal.png">
+      </div>
+      <app-content></app-content>
+      <app-footer></app-footer>
     </div>
-
-    <app-content></app-content>
-    <app-footer></app-footer>
   </div>
 </template>
 <script>
@@ -16,13 +17,18 @@
   export default {
     data() {
       return {
-        seller: 'sss'
+        seller: 'sss',
+        fullscreenLoading: true
+
       }
     },
     components: {
       'app-header': Header,
       'app-content': Content,
       'app-footer':Footer
+    },
+    created:function () {
+      this.fullscreenLoading=false
     }
 
   }

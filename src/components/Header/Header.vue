@@ -1,20 +1,29 @@
 <template>
   <div class="header">
-      <nav >
-        <ul>
-          <li class="magictime" v-bind:class="{spaceInUp:isOpen}">首页</li>
+      <nav class="clearfix" style="opacity: 0.6" ref="nav">
+        <div class="leftBar">ONLY1314</div>
+        <div class="header-info">只为，守护您一生一世的求职路...</div>
+        <ul class="list-hy animated"  v-bind:class="[isBanner?'fadeInDown':'fadeOutUp',isBlock]">
+          <!--<li class="magictime" v-bind:class="{spaceInUp:isOpen}">首页</li>
           <li class="magictime" v-bind:class="{spaceInDown:isOpen}">互联网</li>
           <li class="magictime" v-bind:class="{spaceInUp:isOpen}">财务</li>
           <li class="magictime" v-bind:class="{spaceInDown:isOpen}">建筑</li>
           <li class="magictime" v-bind:class="{spaceInUp:isOpen}">金融</li>
-          <li class="magictime" v-bind:class="{spaceInDown:isOpen}">法律</li>
+          <li class="magictime" v-bind:class="{spaceInDown:isOpen}">法律</li>-->
+          <li>互联网</li>
+          <li>财务</li>
+          <li>建筑</li>
+          <li>金融</li>
+          <li>法律</li>
         </ul>
+        <div class="relogin clearfix" id="s">
+          <p><span v-if="username==' '"><router-link :to="{ name: 'Login'}">登陆</router-link></span><span v-html="username"></span></p>
+          <p v-if="username!=' '" class="ml5" @click="loginOut"><i class="iconfont icon-tuichu"></i></p>
+          <p class="ml10" v-if="username!=' '"><span><router-link :to="{ name: 'Publish'}"><i class="iconfont icon-fabu"></i></router-link></span></p>
+          <p @click="switchBanner"  ><i class="iconfont ml20 icon-zhedie" v-bind:class="[isBanner?'showBanner':'']"></i></p>
+        </div>
       </nav>
-    <section class="relogin" id="s">
-      <p><span v-if="username==' '"><router-link :to="{ name: 'Login'}">登陆</router-link></span><span v-html="username"></span></p>
-      <p v-if="username!=' '" class="ml5" @click="loginOut"><i class="iconfont icon-tuichu"></i></p>
-      <p class="ml10" v-if="username!=' '"><span><router-link :to="{ name: 'Publish'}"><i class="iconfont icon-fabu"></i></router-link></span></p>
-    </section>
+
     <section class="canvas-wrap">
       <div id="canvas" class="gradient"></div>
     </section>
@@ -32,11 +41,14 @@
   import handle from '../../CommonJs/CommonJs';
   export default {
       data(){
-          return { show:false,isOpen:false}
+          return { show:false,isOpen:false,isBanner:false,isBlock:''}
       },
     mounted: function () {
      this.isOpen=true;
      /* console.log(JSON.parse(this.$store.state.userInfo.userInfo).username)*/
+    },
+    created:function () {
+
     },
     methods:{
       loginOut(){
@@ -44,6 +56,10 @@
           handle.tips_confirm(this,'真的要离开了吗，再给个机会可好？',function () {
             _that.$store.commit('clearUserInfo');
           },'伤心提示o(╥﹏╥)o')
+      },
+      switchBanner(){
+          this.isBanner=!this.isBanner;
+          this.isBlock='block'
       }
     },
     computed: {
@@ -58,22 +74,47 @@
   }
 </script>
 <style scoped>
+  .block{display: block!important;}
+  .fadeInDown{
+    display: block!important;
+  }
+  .showBanner{
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+  }
+  .icon-zhedie{display: inline-block}
   a{text-decoration: none;color: #ffffff}
   a:hover{color: #ff4169;transform: scale(1.2,1.2)}
   .relogin{
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    z-index: 101;
+    position: relative;
+    float: right;
+    height: 60px;
+    line-height: 60px;
+    margin-right: 20px;
+
+  }
+  .header-info{
+    text-align: left;
+    margin-left: 20px;
+    float: left;
+    height: 60px;
+    line-height: 60px;
+  }
+  .list-hy{
+    display: none;
   }
   .relogin p{
     float: left;
-    color: #ffffff;
+    color: #999999;
     letter-spacing: 2px;
     font-size: 15px;
     cursor: pointer;
   }
   .relogin p:hover{
+    color: #ff4169;
+  }
+  .icon-fabu{color: #999999}
+  .icon-fabu:hover{
     color: #ff4169;
   }
   #canvas{
@@ -102,20 +143,33 @@
     background-size: cover;
     position: relative;
   }
-  nav{width: 100%;height: 60px;position: absolute;top: 20px;left: 20px;z-index: 100}
-  nav ul{width: 100%;height: 100%}
+  .header .leftBar{
+    width: 150px;
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    border-right:1px solid #dddddd;
+    font-size: 18px;
+
+  }
+  nav{width: 100%;position: fixed;z-index: 100;background-color: rgba(255,255,255,0.9);height: 60px;display: block;}
+  nav ul{width: 100%;height: 100%;position: absolute;background-color: #85D6A4;box-sizing: border-box;padding: 0 20px;top: 60px}
   nav ul li{
     cursor: pointer;
-    float: left;
-    padding: 5px 30px;
+    float: right;
+    height: 60px;
+    line-height: 60px;
+   /* padding: 5px 30px;*/
     color: #ffffff;
     margin: 0px 10px;
-    border: 1px solid #ffffff;
+    font-size: 16px;
+  /*  border: 1px solid #ffffff;*/
   }
   nav ul li:hover{
+    color: #ff4169;
     transform: scale(1.2,1.2);
-    border: 1px dashed #ffffff;
   }
+
   .indexSearch{
     width: 40%;
     height: 40px;

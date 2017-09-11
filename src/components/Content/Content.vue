@@ -42,7 +42,7 @@
               目前主要针对成都市公司的举报
             </el-collapse-item>
             <el-collapse-item title="联系" name="3">
-              暂无
+              mail:wuhao@only1314.cn
             </el-collapse-item>
             <el-collapse-item title="最新" name="4">
               暂无

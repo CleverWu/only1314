@@ -49,6 +49,7 @@
         </el-form>
       </div>
     </div>
+    <div><router-link :to="{ name: 'Web'}"></router-link></div>
 
   </div>
 </template>
@@ -71,6 +72,9 @@
           desc: '',
         }
       }
+    },
+    mounted:function () {
+      window.scrollTo(0,0);
     },
     methods: {
       onSubmit() {

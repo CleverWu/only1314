@@ -11,9 +11,18 @@
   </div>
 </template>
 <script>
-  import Header from '../Header/Header'
+/*  import Header from '../Header/Header'
   import Content from '../Content/Content'
-  import Footer from '../Footer/Footer'
+  import Footer from '../Footer/Footer'*/
+  const Header= resolve=> {
+    require(['../Header/Header.vue'], resolve)
+  };
+  const Content= resolve=> {
+    require(['../Content/Content.vue'], resolve)
+  };
+  const Footer= resolve=> {
+    require(['../Footer/Footer.vue'], resolve)
+  };
   export default {
     data() {
       return {

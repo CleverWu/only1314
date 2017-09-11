@@ -1,9 +1,9 @@
 <template>
-  <div class="header">
-      <nav class="clearfix" style="opacity: 0.6" ref="nav">
-        <div class="leftBar">ONLY1314</div>
+  <div class="header" v-bind:class="isGrew?'t-999999':'t-ffffff'">
+      <nav class="clearfix" style="background-color:rgba(255,255,255,0)" ref="nav">
+        <div class="leftBar" ref="leftBar">ONLY1314</div>
         <div class="header-info">只为，守护您一生一世的求职路...</div>
-        <ul class="list-hy animated"  v-bind:class="[isBanner?'fadeInDown':'fadeOutUp',isBlock]">
+        <ul class="list-hy animated" style="background-color:rgba(133,214,164,0)" ref="ulnav"  v-bind:class="[isBanner?'fadeInDown':'fadeOutUp',isBlock]">
           <!--<li class="magictime" v-bind:class="{spaceInUp:isOpen}">首页</li>
           <li class="magictime" v-bind:class="{spaceInDown:isOpen}">互联网</li>
           <li class="magictime" v-bind:class="{spaceInUp:isOpen}">财务</li>
@@ -17,9 +17,9 @@
           <li>法律</li>
         </ul>
         <div class="relogin clearfix" id="s">
-          <p><span v-if="username==' '"><router-link :to="{ name: 'Login'}">登陆</router-link></span><span v-html="username"></span></p>
+          <p><span v-if="username==' '"><router-link :to="{ name: 'Login'}"  v-bind:class="isGrew?'t-999999':'t-ffffff'">登陆</router-link></span><span v-html="username"></span></p>
           <p v-if="username!=' '" class="ml5" @click="loginOut"><i class="iconfont icon-tuichu"></i></p>
-          <p class="ml10" v-if="username!=' '"><span><router-link :to="{ name: 'Publish'}"><i class="iconfont icon-fabu"></i></router-link></span></p>
+          <p class="ml10" v-if="username!=' '"><span><router-link :to="{ name: 'Publish'}"  v-bind:class="isGrew?'t-999999':'t-ffffff'"><i class="iconfont icon-fabu"></i></router-link></span></p>
           <p @click="switchBanner"  ><i class="iconfont ml20 icon-zhedie" v-bind:class="[isBanner?'showBanner':'']"></i></p>
         </div>
       </nav>
@@ -41,14 +41,18 @@
   import handle from '../../CommonJs/CommonJs';
   export default {
       data(){
-          return { show:false,isOpen:false,isBanner:false,isBlock:''}
+          return { show:false,isOpen:false,isBanner:false,isBlock:'',scroll: '',isGrew:false}
       },
     mounted: function () {
      this.isOpen=true;
      /* console.log(JSON.parse(this.$store.state.userInfo.userInfo).username)*/
     },
     created:function () {
+        window.addEventListener('scroll', this.nav)
 
+    },
+    destroyed () {
+      window.removeEventListener('scroll',this.nav)
     },
     methods:{
       loginOut(){
@@ -60,6 +64,23 @@
       switchBanner(){
           this.isBanner=!this.isBanner;
           this.isBlock='block'
+      },
+      nav() {
+        if(this.isBanner==true){
+          this.isBanner=false;
+        }
+        this.scroll = document.body.scrollTop;
+        this.$refs.nav.style.backgroundColor="rgba(255,255,255,"+this.scroll/400+")";
+        if(this.scroll>200){
+          this.$refs.leftBar.style.borderRight="1px solid #dddddd";
+          this.isGrew=true;
+        }else{
+          this.$refs.leftBar.style.borderRight="1px solid rgba(0,0,0,0)";
+          this.isGrew=false;
+        }
+
+        this.$refs.ulnav.style.backgroundColor="rgba(133,214,164,"+this.scroll/400+")";
+        console.log(this.scroll/100)
       }
     },
     computed: {
@@ -99,13 +120,14 @@
     float: left;
     height: 60px;
     line-height: 60px;
+  /*  color: #ffffff;*/
   }
   .list-hy{
     display: none;
   }
   .relogin p{
     float: left;
-    color: #999999;
+    /*color: #ffffff;*/
     letter-spacing: 2px;
     font-size: 15px;
     cursor: pointer;
@@ -113,7 +135,6 @@
   .relogin p:hover{
     color: #ff4169;
   }
-  .icon-fabu{color: #999999}
   .icon-fabu:hover{
     color: #ff4169;
   }
@@ -135,6 +156,8 @@
   .icon-tuichu{
     font-size: 18px;
   }
+  .t-ffffff{color: #ffffff;}
+  .t-999999{color: #999999;}
   .header{
     overflow: hidden;
     width: 100%;
@@ -148,8 +171,8 @@
     float: left;
     height: 60px;
     line-height: 60px;
-    border-right:1px solid #dddddd;
     font-size: 18px;
+   /* color: #ffffff;*/
 
   }
   nav{width: 100%;position: fixed;z-index: 100;background-color: rgba(255,255,255,0.9);height: 60px;display: block;}

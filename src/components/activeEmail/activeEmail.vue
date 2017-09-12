@@ -36,7 +36,7 @@
       }
       var _this = this;
       this.intervalid1 = setInterval(function () {
-        _this.$http.post(this.apiBase+'/isActiveSuccess', data)
+        _this.$http.post(_this.apiBase+'/isActiveSuccess', data)
           .then(response => {
             if (response.data.status == '200') {
               router.push({path: '/'})

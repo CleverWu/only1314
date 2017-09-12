@@ -35,10 +35,15 @@
             <label class="lab" v-bind:class="regist.username!=''?'active':''">用户名:</label>
             <div v-remind="regist.username" class="bar"></div>
           </div>
-          <div class="input-container">
+          <!--<div class="input-container">
             <input type="text" v-model="regist.phone"/>
             <label class="lab">手机号码:</label>
             <div class="bar"></div>
+          </div>-->
+          <div class="input-container">
+            <input type="text" v-model="regist.email" v-verify.regist="regist.email"/>
+            <label class="lab" v-bind:class="regist.email!=''?'active':''">邮箱:</label>
+            <div v-remind="regist.email" class="bar"></div>
           </div>
           <div class="input-container">
             <input type="password" v-model="regist.pwd" v-verify.regist="regist.pwd"/>
@@ -72,6 +77,7 @@
       return {
         changeStatus:false,
         isOpen:false,
+        apiBase:'',
         login:{
           username:'',
           pwd:''
@@ -79,7 +85,8 @@
         regist:{
           username:'',
           phone:'',
-          pwd:''
+          pwd:'',
+          email:''
         }
 
       }
@@ -97,6 +104,7 @@
              message: "姓名不得大于5位"
            }
          ],
+       email:"email",
        /*phone:["required","mobile"],*/
        pwd: {
          minLength:6,
@@ -124,6 +132,9 @@
     },
     mounted: function () {
       this.$refs.login.style.height = window.innerHeight + 'px';
+      this.$nextTick(function () {
+        this.apiBase=this.$store.state.apiLink.apiLink
+      })
     },
     methods:{
         changeRegist () {
@@ -136,11 +147,12 @@
         if(this.$verify.check("regist")===true){
           var data={
             username:this.regist.username,
-            password:this.regist.pwd
+            password:this.regist.pwd,
+            email:this.regist.email
           }
-          this.$http.post('https://api.only1314.cn/regist', data)
+          this.$http.post(this.apiBase+'/regist', data)
             .then(response => {
-              this.$store.commit('setUserInfo',JSON.stringify(response.data));
+              this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
               this.$message({
                 showClose: false,
                 message: '恭喜你，注册成功',
@@ -148,7 +160,7 @@
                 duration:1000
               });
               setTimeout(function () {
-                router.push({ path: '/' })
+                router.push({ path: '/activeEmail' })
               },1000)
 
               console.log(response.data.username);
@@ -164,7 +176,7 @@
             username:this.login.username,
             password:this.login.pwd
           }
-          this.$http.post('https://api.only1314.cn/login', data)
+          this.$http.post(this.apiBase+'/login', data)
          /* this.$http.post('http://localhost:8081/login', data)*/
             .then(response => {
               if(response.data.status=='200'){

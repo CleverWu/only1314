@@ -62,6 +62,7 @@
   export default {
     data() {
       return {
+        apiBase:'',
         picNums: [],
         form: {
           /* name: '',*/
@@ -75,6 +76,9 @@
     },
     mounted:function () {
       window.scrollTo(0,0);
+      this.$nextTick(function () {
+        this.apiBase=this.$store.state.apiLink.apiLink
+      })
     },
     methods: {
       onSubmit() {
@@ -90,7 +94,7 @@
           picArr: this.picNums
         }
         console.log(data)
-        this.$http.post('https://api.only1314.cn/publish', data)
+        this.$http.post(this.apiBase+'/publish', data)
         /* this.$http.post('http://localhost:8081/publish', data)*/
           .then(response => {
             if (response.data.status == '200') {

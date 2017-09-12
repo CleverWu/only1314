@@ -12,6 +12,9 @@ const Publish= resolve=> {
 const Login= resolve=> {
   require(['../components/Login/Login.vue'], resolve)
 };
+const activeEmail= resolve=> {
+  require(['../components/activeEmail/activeEmail.vue'], resolve)
+};
 
 export default new Router({
   routes: [
@@ -29,6 +32,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/activeEmail',
+      name: 'activeEmail',
+      component: activeEmail
     }
   ]
 })

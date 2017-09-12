@@ -1,15 +1,15 @@
 var userInfo = {
   state: {
-    userInfo: sessionStorage.getItem('userInfo')
+    userInfo: localStorage.getItem('userInfo')
 },
 mutations: {
   setUserInfo(state, info) {
     state.userInfo=info;
-    sessionStorage.setItem('userInfo', info);
+    localStorage.setItem('userInfo', info);
   },
   clearUserInfo(state,info){
     state.userInfo='';
-    sessionStorage.removeItem('userInfo');
+    localStorage.removeItem('userInfo');
   }
 
 }

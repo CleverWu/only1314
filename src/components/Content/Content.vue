@@ -7,13 +7,13 @@
                   <img class="item-head-img" src="/static/images/photo.png">
                   <div class="item-head-info">
                     <h3>{{item.companyName}}</h3>
-                    <p>{{item.publishdate}}</p>
+                    <p>{{item.publishdate | dateFormat}}</p>
                   </div>
                 </div>
                 <div class="list-item-content">
                   {{item.desc}}
                 </div>
-                <div class="item-img">
+                <div class="item-img" @click="goArticle(item._id)">
 
                   <img v-if=item.picArr[0] :src=item.picArr[0]>
                   <img  v-else src="https://only1314.cn/static/images/bg_2.jpg">
@@ -69,6 +69,14 @@
       };
     },
     components:{'sub-box':SubBox,'sub-box-s1':SubBoxS1},
+    filters: {
+      dateFormat: function (value) {
+        console.log(value)
+        if (!value) return ''
+        var date=new Date(value);
+        return date.getFullYear()+'-'+parseInt(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()
+      }
+    },
     mounted: function () {
       this.isOpen=true;
       this.$nextTick(function () {

@@ -6,7 +6,7 @@
     </div>
     <div class="articleBox">
         <h1 class="title" v-html="article.companyName">我只是一个新标题</h1>
-        <p class="pubtime" v-html="article.publishdate">2017-9-9</p>
+        <p class="pubtime">{{article.publishdate | dateFormat}}</p>
       <img class="a-img" v-if=article.picArr[0] :src=article.picArr[0]>
       <img class="a-img"  v-else src="https://only1314.cn/static/images/bg_2.jpg">
         <div class="detail" v-html="article.desc">
@@ -29,7 +29,7 @@
           <div class="commentInfo">
             <h3>
               <span class="replyName" v-html="item.name">皓月</span>
-              <span class="replydate" v-html="item.commentdate">2017-9-10</span>
+              <span class="replydate">{{item.commentdate|dateFormat}}</span>
               <span @click="switchReply($event)" class="z-reply">回复</span></h3>
             <p class="commentInfo-detail" v-html="item.text"></p>
             <div class="replyText"  v-loading="loading1" element-loading-text="正在回复中">
@@ -40,7 +40,7 @@
           <div class="otherReply" v-for="list in item.subComment">
             <div class="otherReply-photo"><img v-if="list.userPhoto" :src=list.userPhoto><img v-else src='https://only1314.cn/static/images/photo.png'></div>
             <div class="otherReply-commentInfo">
-              <h3><span class="replyName" v-html="list.name">皓月</span><span class="replydate" v-html="list.commentdate">2017-9-10</span></h3>
+              <h3><span class="replyName" v-html="list.name">皓月</span><span class="replydate">{{list.commentdate|dateFormat}}</span></h3>
               <p class="otherReply-commentInfo-detail" v-html="list.text">
               </p>
             </div>
@@ -89,12 +89,21 @@
         this.apiBase=this.$store.state.apiLink.apiLink
       })
     },
+    filters: {
+      dateFormat: function (value) {
+        console.log(value)
+        if (!value) return ''
+        var date=new Date(value);
+        return date.getFullYear()+'-'+parseInt(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()
+      }
+    },
     methods:{
       switchReply(event){
         $(".replyText").fadeOut(0)
-        $(".z-reply").html("回复")
+       /* $(".z-reply").html("回复")*/
         if(event.target.innerHTML=='回复'){
           event.target.parentNode.parentNode.getElementsByClassName("replyText")[0].style.display='block';
+          $(".z-reply").html("回复")
           event.target.innerHTML='收起回复'
         }else{
           event.target.parentNode.parentNode.getElementsByClassName("replyText")[0].style.display='none';

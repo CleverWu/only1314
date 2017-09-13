@@ -42,6 +42,9 @@
           <el-form-item label="描述">
             <el-input type="textarea" :rows="15" v-model="form.desc"></el-input>
           </el-form-item>
+          <el-form-item label="备注">
+            <el-input type="textarea" :rows="5" v-model="form.remark"></el-input>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">发布</el-button>
             <el-button>取消</el-button>
@@ -71,6 +74,7 @@
           date1: '',
           date2: '',
           desc: '',
+          remark:''
         }
       }
     },
@@ -91,6 +95,7 @@
           companyName: this.form.companyName,
           region: this.form.region,
           desc: this.form.desc,
+          remark:this.form.remark,
           picArr: this.picNums
         }
         console.log(data)

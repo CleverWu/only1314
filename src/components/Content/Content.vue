@@ -1,5 +1,4 @@
 <template>
-
   <div class="content">
       <div class="box clearfix">
         <div class="slideLeft clearfix">
@@ -21,7 +20,7 @@
                 </div>
                 <div class="list-item-footer clearfix">
                   <ul>
-                    <li>更多</li>
+                    <li @click="goArticle(item._id)">更多</li>
                     <li>1回复</li>
                     <li>1赞</li>
                   </ul>
@@ -57,9 +56,13 @@
 <script>
   import SubBox from '../SubBox/SubBox'
   import SubBoxS1 from '../SubBoxS1/SubBoxS1'
+  import Vue from "vue";
+  import Router from 'vue-router';
+  var router=new Router();
   export default {
     data() {
       return {
+        apiBase:'',
         activeName: '1',
         isOpen:false,
         articleLists:[]
@@ -69,15 +72,23 @@
     mounted: function () {
       this.isOpen=true;
       this.$nextTick(function () {
-        this.$http.post('https://api.only1314.cn/getArticleList', {})
+        this.apiBase=this.$store.state.apiLink.apiLink
+        this.$http.post(this.apiBase+'/getArticleList', {})
           .then(response => {
               console.log(response)
             this.articleLists=response.data.data;
+            this.$store.commit('setArticle', JSON.stringify(this.articleLists));
             // success callback
           }, response => {
             console.log("no")
           })
       })
+    },
+    methods:{
+      goArticle(id){
+        this.$store.commit('setArticleId', id);
+        router.push({ path: '/article' })
+      }
     }
   }
 </script>

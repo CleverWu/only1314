@@ -15,6 +15,9 @@ const Login= resolve=> {
 const activeEmail= resolve=> {
   require(['../components/activeEmail/activeEmail.vue'], resolve)
 };
+const article= resolve=> {
+  require(['../components/article/article.vue'], resolve)
+};
 
 export default new Router({
   routes: [
@@ -37,6 +40,11 @@ export default new Router({
       path: '/activeEmail',
       name: 'activeEmail',
       component: activeEmail
+    },
+    {
+      path: '/article',
+      name: 'article',
+      component: article
     }
   ]
 })

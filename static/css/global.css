@@ -189,3 +189,33 @@ i, em, strong { font-style:normal;}
 .pr30 { padding-right:30px;}
 .pr50 { padding-right:50px;}
 .pr100 { padding-right:100px;}
+
+.ui-heart {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  background: #f00;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  z-index: 100;
+}
+
+.ui-heart:after, .ui-heart:before {
+  content: '';
+  width: inherit;
+  height: inherit;
+  background: inherit;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  position: absolute;
+}
+
+.ui-heart:after {
+  top: -5px;
+}
+
+.ui-heart:before {
+  left: -5px;
+}

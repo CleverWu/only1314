@@ -162,7 +162,7 @@
           var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
           var data={
             articleId:this.article._id,
-            userPhoto:articleUserInfo.photo||"https://only1314.cn/static/images/photo.png",
+            userPhoto:articleUserInfo.userPhoto||"https://only1314.cn/static/images/photo.png",
             userName:articleUserInfo.username,
             text:this.s_text,
             index:index
@@ -188,7 +188,7 @@
           var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
           var data={
             articleId:this.article._id,
-            userPhoto:articleUserInfo.photo||"https://only1314.cn/static/images/photo.png",
+            userPhoto:articleUserInfo.userPhoto||"https://only1314.cn/static/images/photo.png",
             userName:articleUserInfo.username,
             text:this.z_text
           }

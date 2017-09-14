@@ -39,7 +39,7 @@
               <div>举报不诚信公司，为后面的求职者，也包括自己提供一个好的求职环境</div>
             </el-collapse-item>
             <el-collapse-item title="目标" name="2">
-              目前主要开通对成都市财务及互联网行业公司的举报
+              目前主要开通对财务及互联网行业公司的举报
             </el-collapse-item>
             <el-collapse-item title="联系" name="3">
               <div>

@@ -28,6 +28,18 @@ var handle = {
        message: '已取消删除'
        });*/
     });
+  },
+  verifiyLoginStatus:function (_this,router) {
+    var userInfo=JSON.parse(_this.$store.state.userInfo.userInfo);
+    if(userInfo==null){
+      this.tips_warn(_this,'请登陆后再回复')
+    }else if(userInfo.activeStatus==false){
+      this.tips_confirm(_this,'账户未激活,是否转到激活页面',function () {
+        router.push({ path: '/activeEmail' })
+      },'未激活提示')
+    }else{
+      return true
+    }
   }
 
 

@@ -33,18 +33,24 @@
         <div class="slideRight">
           <el-collapse v-model="activeName" accordion>
             <el-collapse-item title="本站主旨" name="1">
-              <div>本站在于打造为反应各个公司信誉的平台</div>
+              <div>本站为纯公益性质</div>
+              <div>在于打造为反应各个公司信誉的平台</div>
               <div>用户可以根据情况发布自己在求职过程中遭遇的不公平待遇</div>
               <div>举报不诚信公司，为后面的求职者，也包括自己提供一个好的求职环境</div>
             </el-collapse-item>
             <el-collapse-item title="目标" name="2">
-              目前主要针对成都市公司的举报
+              目前主要开通对成都市财务及互联网行业公司的举报
             </el-collapse-item>
             <el-collapse-item title="联系" name="3">
-              mail:wuhao@only1314.cn
+              <div>
+                如果你有好的建议，请联系我：
+              </div>
+              <div>
+                mail:admin@only1314.cn
+              </div>
             </el-collapse-item>
             <el-collapse-item title="最新" name="4">
-              暂无
+              希望大家真实举报，也可以发布一些比较好的公司信息,供大家参考
             </el-collapse-item>
           </el-collapse>
         </div>

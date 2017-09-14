@@ -15,8 +15,11 @@
               <el-option label="财务" value="财务"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="名称">
+          <el-form-item label="公司名称">
             <el-input v-model="form.companyName"></el-input>
+          </el-form-item>
+          <el-form-item label="地址">
+            <el-input v-model="form.address"></el-input>
           </el-form-item>
           <el-form-item label="时间">
             <el-col :span="11">
@@ -71,6 +74,7 @@
           /* name: '',*/
           region: '',
           companyName: '',
+          address:'',
           date1: '',
           date2: '',
           desc: '',
@@ -93,6 +97,7 @@
           date1: this.form.date1,
           date2: this.form.date2,
           companyName: this.form.companyName,
+          address:this.form.address,
           region: this.form.region,
           desc: this.form.desc,
           remark:this.form.remark,

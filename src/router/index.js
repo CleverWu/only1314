@@ -18,6 +18,19 @@ const activeEmail= resolve=> {
 const article= resolve=> {
   require(['../components/article/article.vue'], resolve)
 };
+const excel= resolve=> {
+  require(['../components/excel/excel.vue'], resolve)
+};
+const userCenter= resolve=> {
+  require(['../components/userCenter/userCenter.vue'], resolve)
+};
+const userPhoto= resolve=> {
+  require(['../components/userCenter/userPhoto.vue'], resolve)
+};
+const account= resolve=> {
+  require(['../components/userCenter/account.vue'], resolve)
+};
+
 
 export default new Router({
   routes: [
@@ -45,6 +58,30 @@ export default new Router({
       path: '/article',
       name: 'article',
       component: article
+    },
+    {
+      path: '/excel',
+      name: 'excel',
+      component: excel
+    },
+    {
+      path: '/userCenter',
+      name: 'userCenter',
+      component: userCenter,
+      children: [
+        {
+          path: 'userPhoto',
+          name:'userPhoto',
+          component: userPhoto
+        },
+        {
+          // 当 /user/:id/posts 匹配成功
+          // UserPosts 会被渲染在 User 的 <router-view> 中
+          path: 'account',
+          name:'account',
+          component: account
+        }
+      ]
     }
   ]
 })

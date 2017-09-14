@@ -152,18 +152,20 @@
           }
           this.$http.post(this.apiBase+'/regist', data)
             .then(response => {
-              this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
-              this.$message({
-                showClose: false,
-                message: '恭喜你，注册成功',
-                type: 'success',
-                duration:1000
-              });
-              setTimeout(function () {
-                router.push({ path: '/activeEmail' })
-              },1000)
-
-              console.log(response.data.username);
+                if(response.data.status=='200'){
+                  this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
+                  this.$message({
+                    showClose: false,
+                    message: '恭喜你，注册成功',
+                    type: 'success',
+                    duration:1000
+                  });
+                  setTimeout(function () {
+                    router.push({ path: '/activeEmail' })
+                  },1000)
+                }else{
+                    handle.tips_warn(this,"用户名已存在o(╥﹏╥)o")
+                }
               // success callback
             }, response => {
               console.log("no")

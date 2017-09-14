@@ -39,6 +39,8 @@
         _this.$http.post(_this.apiBase+'/isActiveSuccess', data)
           .then(response => {
             if (response.data.status == '200') {
+              console.log(response.data.data)
+              _this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
               router.push({path: '/'})
             } else {
               console.log("没有激活")

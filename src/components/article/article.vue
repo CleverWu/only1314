@@ -60,6 +60,8 @@
 <script>
   import $ from 'jQuery'
   import handle from '../../CommonJs/CommonJs'
+  import Router from 'vue-router'
+  var router = new Router();
   export default{
       data(){
           return{
@@ -155,49 +157,53 @@
         }
       },
       s_sureReply(index){
-        this.loading1=true;
-        var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
-        var data={
-          articleId:this.article._id,
-          userPhoto:articleUserInfo.photo||"https://only1314.cn/static/images/photo.png",
-          userName:articleUserInfo.username,
-          text:this.s_text,
-          index:index
+        if(handle.verifiyLoginStatus(this,router)){
+          this.loading1=true;
+          var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
+          var data={
+            articleId:this.article._id,
+            userPhoto:articleUserInfo.photo||"https://only1314.cn/static/images/photo.png",
+            userName:articleUserInfo.username,
+            text:this.s_text,
+            index:index
+          }
+          this.$http.post(this.apiBase+'/s_reply', data)
+            .then(response => {
+              this.loading1=false;
+              handle.tips_success(this,'回复成功(〃"▽"〃)')
+              this.article.comments[index].subComment.push(response.data.data.thisArticle);
+              this.$store.commit('setArticle',JSON.stringify(response.data.data.all));
+              this.s_text='';
+              $(".replyText").fadeOut(0);
+              $(".z-reply").html("回复");
+              // success callback
+            }, response => {
+              console.log("no")
+            })
         }
-        this.$http.post(this.apiBase+'/s_reply', data)
-          .then(response => {
-            this.loading1=false;
-            handle.tips_success(this,'回复成功(〃"▽"〃)')
-            this.article.comments[index].subComment.push(response.data.data.thisArticle);
-            this.$store.commit('setArticle',JSON.stringify(response.data.data.all));
-            this.s_text='';
-            $(".replyText").fadeOut(0);
-            $(".z-reply").html("回复");
-            // success callback
-          }, response => {
-            console.log("no")
-          })
       },
       z_sureReply(){
-        this.loading2=true;
-        var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
-        var data={
+        if(handle.verifiyLoginStatus(this,router)){
+          this.loading2=true;
+          var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
+          var data={
             articleId:this.article._id,
             userPhoto:articleUserInfo.photo||"https://only1314.cn/static/images/photo.png",
             userName:articleUserInfo.username,
             text:this.z_text
+          }
+          this.$http.post(this.apiBase+'/z_reply', data)
+            .then(response => {
+              this.loading2=false;
+              handle.tips_success(this,'回复成功(〃"▽"〃)')
+              this.article.comments.push(response.data.data.thisArticle);
+              this.$store.commit('setArticle',JSON.stringify(response.data.data.all));
+              this.z_text='';
+              // success callback
+            }, response => {
+              console.log("no")
+            })
         }
-        this.$http.post(this.apiBase+'/z_reply', data)
-          .then(response => {
-            this.loading2=false;
-            handle.tips_success(this,'回复成功(〃"▽"〃)')
-            this.article.comments.push(response.data.data.thisArticle);
-            this.$store.commit('setArticle',JSON.stringify(response.data.data.all));
-            this.z_text='';
-            // success callback
-          }, response => {
-            console.log("no")
-          })
       }
     }
   }

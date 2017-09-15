@@ -63,8 +63,8 @@
   import SubBox from '../SubBox/SubBox'
   import SubBoxS1 from '../SubBoxS1/SubBoxS1'
   import Vue from "vue";
-  import Router from 'vue-router';
-  var router=new Router();
+  /*import Router from 'vue-router';*/
+  /*var router=new Router({mode: 'history',});*/
   export default {
     data() {
       return {
@@ -101,7 +101,7 @@
     methods:{
       goArticle(id){
         this.$store.commit('setArticleId', id);
-        router.push({ path: '/article' })
+        this.$router.push({ path: '/article' })
       }
     }
   }

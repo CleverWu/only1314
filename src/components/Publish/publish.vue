@@ -62,9 +62,9 @@
 
 <script>
   import Vue from "vue";
-  import Router from 'vue-router';
+/*  import Router from 'vue-router';*/
   import handle from '../../CommonJs/CommonJs'
-  var router = new Router();
+ /* var router = new Router();*/
   export default {
     data() {
       return {
@@ -90,6 +90,7 @@
     },
     methods: {
       onSubmit() {
+          var _this=this;
         var userInfo = JSON.parse(this.$store.state.userInfo.userInfo);
 
         var data = {
@@ -110,7 +111,7 @@
             if (response.data.status == '200') {
               handle.tips_success(this, '发表成功(〃"▽"〃)')
               setTimeout(function () {
-                router.push({path: '/'})
+                _this.$router.push({path: '/'})
               }, 1000)
             } else {
               handle.tips_warn(this, response.data.message)

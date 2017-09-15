@@ -1,7 +1,7 @@
 var apiLink = {
   state: {
-    /*apiLink: 'http://localhost:8081'//开启本地接口*/
-    apiLink: 'https://api.only1314.cn'// 开启服务器接口
+    apiLink: 'http://localhost:8081'//开启本地接口
+   /* apiLink: 'https://api.only1314.cn'// 开启服务器接口*/
   },
   mutations: {
     setApiLink(state, info) {

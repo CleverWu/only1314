@@ -30,9 +30,13 @@ const userPhoto= resolve=> {
 const account= resolve=> {
   require(['../components/userCenter/account.vue'], resolve)
 };
+const commonTopBar= resolve=> {
+  require(['../components/Header/commonTopBar.vue'], resolve)
+};
 
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -63,6 +67,11 @@ export default new Router({
       path: '/excel',
       name: 'excel',
       component: excel
+    },
+    {
+      path: '/commonTopBar',
+      name: 'commonTopBar',
+      component: commonTopBar
     },
     {
       path: '/userCenter',

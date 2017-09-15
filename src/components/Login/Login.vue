@@ -66,9 +66,9 @@
 <script>
   import Vue from "vue";
   import verify from "vue-verify-plugin";
-  import Router from 'vue-router';
+ /* import Router from 'vue-router';*/
   import handle from '../../CommonJs/CommonJs'
-  var router=new Router();
+ /* var router=new Router();*/
   Vue.use(verify,{
     blur:true
   });
@@ -100,8 +100,8 @@
              message: "姓名不得小于两位"
            },
            {
-             maxLength:5,
-             message: "姓名不得大于5位"
+             maxLength:10,
+             message: "姓名不得大于10位"
            }
          ],
        email:"email",
@@ -144,6 +144,7 @@
         this.isOpen=false;
       },
       sureRegist(){
+            var _this=this;
         if(this.$verify.check("regist")===true){
           var data={
             username:this.regist.username,
@@ -161,7 +162,7 @@
                     duration:1000
                   });
                   setTimeout(function () {
-                    router.push({ path: '/activeEmail' })
+                    _this.$router.push({ path: '/activeEmail' })
                   },1000)
                 }else{
                     handle.tips_warn(this,"用户名已存在o(╥﹏╥)o")
@@ -173,6 +174,7 @@
         }
       },
       sureLogin(){
+          var _this=this;
         if(this.$verify.check("login")===true){
           var data={
             username:this.login.username,
@@ -185,7 +187,7 @@
                 this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
                 handle.tips_success(this,'登陆成功(〃"▽"〃)')
                 setTimeout(function () {
-                  router.push({ path: '/' })
+                  _this.$router.push({ name: 'Web' })
                 },1000)
               }else{
                 console.log(this)

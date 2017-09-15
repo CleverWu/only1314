@@ -1,7 +1,7 @@
 <template>
   <div class="activeEmail" ref="activeEmail">
     <div class="box">
-      <h1>为了更好的体验本站功能，强烈建议验证您<span @click="openMailLink" class="t-ff4169" v-html="email"></span>的邮箱~</h1>
+      <h1>为了使本站更好的为您服务，强烈建议验证您<span @click="openMailLink" class="t-ff4169" v-html="email"></span>的邮箱~</h1>
       <button class="b-00BFFF sure" @click="sureSend">发送激活邮件</button>
       <!--<button @click="sureSend">确定已成功激活</button>-->
       <button class="cancel" @click="skipToIndex">跳过此步骤</button>
@@ -10,9 +10,9 @@
 </template>
 <script>
   import Vue from "vue";
-  import Router from 'vue-router';
+ /* import Router from 'vue-router';*/
   import handle from '../../CommonJs/CommonJs'
-  var router = new Router();
+/*  var router = new Router();*/
   export default{
     data(){
       return {
@@ -41,7 +41,7 @@
             if (response.data.status == '200') {
               console.log(response.data.data)
               _this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
-              router.push({path: '/'})
+              _this.$router.push({path: '/'})
             } else {
               console.log("没有激活")
             }
@@ -108,7 +108,7 @@
         }
       },
       skipToIndex(){
-        router.push({path: '/'})
+        this.$router.push({path: '/'})
       },
       sureSend(){
         var data = {

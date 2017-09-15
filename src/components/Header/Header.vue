@@ -49,7 +49,6 @@
     },
     created:function () {
         window.addEventListener('scroll', this.nav)
-
     },
     destroyed () {
       window.removeEventListener('scroll',this.nav)
@@ -112,7 +111,6 @@
     height: 60px;
     line-height: 60px;
     margin-right: 20px;
-
   }
   .header-info{
     text-align: left;

@@ -1,9 +1,10 @@
 <template>
   <div class="article" ref="article">
-    <div class="article-info">
+    <!--<div class="article-info">
       <div class="websiteName">ONLY1314</div>
       <div class="websiteInfo">永远不要忘记给自己加油~</div>
-    </div>
+    </div>-->
+    <common-top-bar :websiteInfo="websiteInfo"></common-top-bar>
     <div class="articleBox">
         <h1 class="title" v-html="article.companyName">我只是一个新标题</h1>
         <p class="pubtime">{{article.publishdate | dateFormat}}</p>
@@ -40,7 +41,7 @@
           <div class="otherReply" v-for="list in item.subComment">
             <div class="otherReply-photo"><img v-if="list.userPhoto" :src=list.userPhoto><img v-else src='https://only1314.cn/static/images/photo.png'></div>
             <div class="otherReply-commentInfo">
-              <h3><span class="replyName" v-html="list.name">皓月</span><span class="replydate">{{list.commentdate|dateFormat}}</span></h3>
+              <h3><span class="replyName" v-html="list.name">皓月</span><span class="replydate">{{list.commentdate|dateFormat}}</span><span>回复</span></h3>
               <p class="otherReply-commentInfo-detail" v-html="list.text">
               </p>
             </div>
@@ -60,8 +61,9 @@
 <script>
   import $ from 'jQuery'
   import handle from '../../CommonJs/CommonJs'
-  import Router from 'vue-router'
-  var router = new Router();
+  import commonTopBar from '../Header/commonTopBar'
+ /* import Router from 'vue-router'*/
+  /*var router = new Router();*/
   export default{
       data(){
           return{
@@ -72,7 +74,8 @@
               articleId:this.$store.state.article.articleId,
               article:'',
               z_text:'',
-              s_text:''
+              s_text:'',
+              websiteInfo:'永远不要忘记'
           }
       },
     created:function () {
@@ -86,7 +89,9 @@
           }
         })
     },
+    components:{'common-top-bar':commonTopBar},
     mounted: function () {
+      window.scrollTo(0,0);
       this.$nextTick(function () {
         this.apiBase=this.$store.state.apiLink.apiLink
       })
@@ -156,8 +161,58 @@
           return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
         }
       },
+      z_sureReply(){
+        if (handle.verifiyLoginStatus(this, this.$router)) {
+          this.loading2 = true;
+          var articleUserInfo = JSON.parse(this.$store.state.userInfo.userInfo)
+          var data = {
+            uid: articleUserInfo._id,
+            aid: this.article._id,
+            content: this.z_text,
+            re_cid: 0,
+            sub_re_cid: 0
+          }
+          this.$http.post(this.apiBase + '/z_reply', data)
+            .then(response => {
+              this.loading2 = false;
+              handle.tips_success(this, '回复成功(〃"▽"〃)')
+              this.article.comments.push(response.data.data.thisArticle);
+              this.$store.commit('setArticle', JSON.stringify(response.data.data.all));
+              this.z_text = '';
+              // success callback
+            }, response => {
+              console.log("no")
+            })
+        }
+      },
       s_sureReply(index){
-        if(handle.verifiyLoginStatus(this,router)){
+        if(handle.verifiyLoginStatus(this,this.$router)){
+          this.loading1=true;
+          var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
+          var data = {
+            uid: articleUserInfo._id,
+            aid: this.article._id,
+            content: this.z_text,
+            re_cid: 0,
+            sub_re_cid: 0
+          }
+          this.$http.post(this.apiBase+'/s_reply', data)
+            .then(response => {
+              this.loading1=false;
+              handle.tips_success(this,'回复成功(〃"▽"〃)')
+              this.article.comments[index].subComment.push(response.data.data.thisArticle);
+              this.$store.commit('setArticle',JSON.stringify(response.data.data.all));
+              this.s_text='';
+              $(".replyText").fadeOut(0);
+              $(".z-reply").html("回复");
+              // success callback
+            }, response => {
+              console.log("no")
+            })
+        }
+      }
+     /* s_sureReply(index){
+        if(handle.verifiyLoginStatus(this,this.$router)){
           this.loading1=true;
           var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
           var data={
@@ -183,7 +238,7 @@
         }
       },
       z_sureReply(){
-        if(handle.verifiyLoginStatus(this,router)){
+        if(handle.verifiyLoginStatus(this,this.$router)){
           this.loading2=true;
           var articleUserInfo=JSON.parse(this.$store.state.userInfo.userInfo)
           var data={
@@ -204,7 +259,7 @@
               console.log("no")
             })
         }
-      }
+      }*/
     }
   }
 </script>

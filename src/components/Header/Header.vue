@@ -68,7 +68,8 @@
         if(this.isBanner==true){
           this.isBanner=false;
         }
-        this.scroll = document.body.scrollTop;
+        this.scroll = document.documentElement.scrollTop;
+        console.log("滚蛋",this.scroll)
         this.$refs.nav.style.backgroundColor="rgba(255,255,255,"+this.scroll/400+")";
         if(this.scroll>200){
           this.$refs.leftBar.style.borderRight="1px solid #dddddd";

@@ -17,7 +17,7 @@
           <li>法律</li>
         </ul>
         <div class="relogin clearfix" id="s">
-          <p><span v-if="username==' '"><router-link :to="{ name: 'Login'}"  v-bind:class="isGrew?'t-999999':'t-ffffff'">登陆/注册</router-link></span><router-link :to="{ name: 'userCenter'}" v-else><span  v-html="username"></span></router-link></p>
+          <p><span v-if="username==' '"><router-link :to="{ name: 'Login'}"  v-bind:class="isGrew?'t-999999':'t-ffffff'">登陆/注册</router-link></span><router-link :to="{ name: 'userCenter'}" v-bind:class="isGrew?'t-999999':'t-ffffff'" v-else><span  v-html="username"></span></router-link></p>
           <p v-if="username!=' '" class="ml5" @click="loginOut"><i class="iconfont icon-tuichu"></i></p>
           <p class="ml10" v-if="username!=' '"><span><router-link :to="{ name: 'Publish'}"  v-bind:class="isGrew?'t-999999':'t-ffffff'"><i class="iconfont icon-fabu"></i></router-link></span></p>
           <p @click="switchBanner"><i class="iconfont ml20 icon-zhedie" v-bind:class="[isBanner?'showBanner':'']"></i></p>

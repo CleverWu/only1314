@@ -119,8 +119,8 @@
             message: "姓名不得小于两位"
           },
           {
-            maxLength:5,
-            message: "姓名不得大于5位"
+            maxLength:10,
+            message: "姓名不得大于10位"
           }
         ],
         pwd: {

@@ -4,7 +4,7 @@
         <div class="slideLeft clearfix">
               <div class="list-item" v-for="item in articleLists">
                 <div class="item-head clearfix">
-                  <img class="item-head-img" src="/static/images/photo.png">
+                  <img class="item-head-img" :src=item.userPhoto>
                   <div class="item-head-info">
                     <h3>{{item.companyName}}</h3>
                     <p>{{item.publishdate | dateFormat}}</p>
@@ -21,8 +21,8 @@
                 <div class="list-item-footer clearfix">
                   <ul>
                     <li @click="goArticle(item._id)">更多</li>
-                    <li>1回复</li>
-                    <li>1赞</li>
+                    <li>{{item.replyNums}}回复</li>
+                    <li>{{item.likeNums}}赞</li>
                   </ul>
                   <ul>
                     <li>{{item.region}}</li>
@@ -91,7 +91,7 @@
           .then(response => {
               console.log(response)
             this.articleLists=response.data.data;
-            this.$store.commit('setArticle', JSON.stringify(this.articleLists));
+           /* this.$store.commit('setArticle', JSON.stringify(this.articleLists));*/
             // success callback
           }, response => {
             console.log("no")

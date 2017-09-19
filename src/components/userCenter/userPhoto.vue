@@ -27,6 +27,7 @@
       return {
         apiBase:'',
         picNums: [JSON.parse(this.$store.state.userInfo.userInfo).userPhoto],
+        pic:JSON.parse(this.$store.state.userInfo.userInfo).userPhoto.substr(20),
         userInfo:JSON.parse(this.$store.state.userInfo.userInfo)
       }
     },
@@ -40,7 +41,9 @@
       onSubmit() {
         var data = {
           username: this.userInfo.username,
+          uid:this.userInfo._id,
           picArr: this.picNums,
+          pic:this.pic,
           type:'switchPhoto'
         }
         console.log(data)

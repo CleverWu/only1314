@@ -29,7 +29,16 @@
     </section>
       <section class="indexSearch magictime" v-bind:class="{spaceInDown:isOpen}">
         <i class="iconfont icon-search"></i>
-        <input class="mainSearch" type="text" placeholder="想找的搜出来">
+        <input class="mainSearch" v-model="question" type="text" placeholder="请输入想查找的公司...">
+        <ul class="indexSearchContent magictime" v-bind:class="{boingInUp:searchList.length>0}"  v-if="searchList.length>0">
+          <li v-for="item in searchList" @click="goArticle(item._id)" class="clearfix"><span class="search-companyName">{{item.companyName}}</span><span class="search-author">作者： {{item.author}}</span></li>
+        </ul>
+        <ul class="indexSearchContent" v-else-if="noAnswer">
+          <li class="textCenter noAnswer">没找到哟~~o(╥﹏╥)o</li>
+        </ul>
+     <!--   <ul  class="indexSearchContent">
+          <li class="textCenter t-ff4169">没找到哟，请重新输入</li>
+        </ul>-->
       </section>
     <section>
        <p>专为守护您的安全而生</p>
@@ -41,10 +50,29 @@
   import handle from '../../CommonJs/CommonJs';
   export default {
       data(){
-          return { show:false,isOpen:false,isBanner:false,isBlock:'',scroll: '',isGrew:false}
+          return { apiBase:'',
+            show:false,
+            isOpen:false,
+            isBanner:false,
+            isBlock:'',
+            scroll: '',
+            isGrew:false,
+            question:'',
+            searchList:[],
+            noAnswer:false
+          }
       },
+    watch: {
+      question: function (newQusetion) {
+       /* this.searchQueryIsDirty = true*/
+        this.getAnswer(newQusetion)
+      }
+    },
     mounted: function () {
      this.isOpen=true;
+      this.$nextTick(function () {
+        this.apiBase=this.$store.state.apiLink.apiLink;
+      })
      /* console.log(JSON.parse(this.$store.state.userInfo.userInfo).username)*/
     },
     created:function () {
@@ -53,7 +81,49 @@
     destroyed () {
       window.removeEventListener('scroll',this.nav)
     },
-    methods:{
+    methods: {
+      clearSearch(){
+        this.searchList=[];
+        this.noAnswer=false;
+        this.question=''
+      },
+      goArticle(id){
+        this.$store.commit('setArticleId', id);
+        this.$router.push({ path: '/article' })
+      },
+      getAnswer: _.debounce(
+        function (query) {
+         /* if (this.question.indexOf('?') === -1) {
+            this.answer = 'Questions usually contain a question mark. ;-)'
+            return
+          }*/
+          var data={
+              queryParam:query
+          }
+          console.log(query)
+          if(query==''){
+            this.noAnswer=false;
+            this.searchList=[];
+          }else{
+            this.$http.post(this.apiBase+'/articleSearchList', data)
+              .then(response => {
+                console.log(response.data)
+                if(response.data.status==-1){
+                  this.noAnswer=true
+                }
+                this.searchList=response.data.data;
+              }, response => {
+                console.log("no")
+
+              })
+          }
+         /* this.answer = 'Thinking...'*/
+
+        },
+        // 这是我们为用户停止输入等待的毫秒数
+        500
+      ),
+
       loginOut(){
           var _that=this;
           handle.tips_confirm(this,'真的要离开了吗，再给个机会可好？',function () {
@@ -65,10 +135,11 @@
           this.isBlock='block'
       },
       nav() {
+        this.clearSearch()
         if(this.isBanner==true){
           this.isBanner=false;
         }
-        this.scroll = document.documentElement.scrollTop;
+        this.scroll = document.body.scrollTop;
         console.log("滚蛋",this.scroll)
         this.$refs.nav.style.backgroundColor="rgba(255,255,255,"+this.scroll/400+")";
         if(this.scroll>200){
@@ -95,6 +166,39 @@
   }
 </script>
 <style scoped>
+  .noAnswer{
+    color: #0e0f13;
+    font-size: 16px;
+  }
+  .search-author{
+    float: right;
+    color: #333333;
+  }
+  .search-companyName{
+    float: left;
+    font-size: 15px;
+    color: #333333;
+  }
+  .indexSearchContent{
+    width: 100%;
+    position: absolute;
+    z-index: 1000;
+    text-align: left;
+    background-color: rgba(255,255,255,0.5);
+    color: #999999;
+    left: 0%;
+    top: 235px;
+    box-sizing: border-box;
+    box-shadow: 1px 2px 3px #000000;
+  }
+  .indexSearchContent li{cursor: pointer;padding: 5px 10px}
+  .indexSearchContent li:hover{
+    background-color: #ff7f0d;
+    color: #ffffff;
+  }
+  .indexSearchContent li:hover span{
+    color: #ffffff;
+  }
   .block{display: block!important;}
   .fadeInDown{
     display: block!important;
@@ -158,9 +262,10 @@
   .t-ffffff{color: #ffffff;}
   .t-999999{color: #999999;}
   .header{
-    overflow: hidden;
+    /*overflow: hidden;*/
     width: 100%;
     height: 400px;
+    z-index: 50;
  /*   background: url(/static/images/bg.jpg);*/
     background-size: cover;
     position: relative;
@@ -174,7 +279,7 @@
    /* color: #ffffff;*/
 
   }
-  nav{width: 100%;position: fixed;z-index: 100;background-color: rgba(255,255,255,0.9);height: 60px;display: block;}
+  nav{width: 100%;position: fixed;z-index: 100;background-color: rgba(255,255,255,0.9);height: 60px;display: block;top:0}
   nav ul{width: 100%;height: 100%;position: absolute;background-color: #85D6A4;box-sizing: border-box;padding: 0 20px;top: 60px}
   nav ul li{
     cursor: pointer;
@@ -193,21 +298,25 @@
   }
 
   .indexSearch{
-    width: 40%;
-    height: 40px;
+    width: 50%;
+    height: 55px;
     color: #ffffff;
-    margin: 180px auto;
+    margin: 0px auto;
+    position: relative;
+    padding-top: 180px;
+
   }
   .indexSearch i{
     position: absolute;
-    font-size: 40px;
-    top: 14px;
+    font-size: 35px;
+    top: 195px;
     left: 10px;
   }
   .mainSearch{
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
-    line-height: 40px;
+    line-height: 55px;
     padding: 5px 60px;
     font-size: 20px;
     background-color: rgba(0,0,0,0);

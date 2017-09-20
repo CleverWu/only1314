@@ -1,9 +1,6 @@
 <template>
   <div class="userCenter">
-    <div class="userCenter-info">
-      <div class="websiteName">ONLY1314</div>
-      <div class="websiteInfo">个人中心-简易版（先这么用着吧）</div>
-    </div>
+    <common-top-bar :websiteInfo="websiteInfo"></common-top-bar>
     <div class="bottom">
       <div class="leftBar">
         <ul>
@@ -21,12 +18,14 @@
   </div>
 </template>
 <script>
+  import commonTopBar from '../Header/commonTopBar'
   export default{
       data(){
           return{
-
+            websiteInfo: '个人中心-简易版 （下一步优化）'
           }
-      }
+      },
+    components: {'common-top-bar': commonTopBar},
   }
 </script>
 <style scoped>

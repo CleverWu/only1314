@@ -1,12 +1,12 @@
 @charset "utf-8";
 @import url('/static/css/iconfont/iconfont.css');
-/*@font-face {
+@font-face {
   font-family: newfont;
-  src: url("new.ttf") !* TTF file for CSS3 browsers *!
+  src: url("IndieFlower.ttf") /* TTF file for CSS3 browsers */
 }
 *{
   font-family: newfont;
-}*/
+}
 /* CSS Document */
 
 /* CSS重置 */
@@ -189,7 +189,8 @@ i, em, strong { font-style:normal;}
 .pr30 { padding-right:30px;}
 .pr50 { padding-right:50px;}
 .pr100 { padding-right:100px;}
-
+.textCenter{text-align: center}
+.textLeft{text-align: left}
 .ui-heart {
   width: 10px;
   height: 10px;

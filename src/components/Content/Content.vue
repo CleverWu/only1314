@@ -1,36 +1,46 @@
 <template>
   <div class="content">
       <div class="box clearfix">
-        <div class="slideLeft clearfix">
-              <div class="list-item" v-for="item in articleLists">
-                <div class="item-head clearfix">
-                  <img class="item-head-img" :src=item.userPhoto>
-                  <div class="item-head-info">
-                    <h3>{{item.companyName}}</h3>
-                    <p>{{item.publishdate | dateFormat}}</p>
-                  </div>
-                </div>
-                <div class="list-item-content">
-                  {{item.desc}}
-                </div>
-                <div class="item-img" @click="goArticle(item._id)">
-
-                  <img v-if=item.picArr[0] :src=item.picArr[0]>
-                  <img  v-else src="https://only1314.cn/static/images/bg_2.jpg">
-                </div>
-                <div class="list-item-footer clearfix">
-                  <ul>
-                    <li @click="goArticle(item._id)">更多</li>
-                    <li>{{item.replyNums}}回复</li>
-                    <li>{{item.likeNums}}赞</li>
-                  </ul>
-                  <ul>
-                    <li>{{item.region}}</li>
-                  </ul>
+        <div class="slideLeft">
+          <div class="clearfix">
+            <div class="list-item" v-for="item in articleLists">
+              <div class="item-head clearfix">
+                <img class="item-head-img" :src=item.userPhoto>
+                <div class="item-head-info">
+                  <h3>{{item.companyName}}</h3>
+                  <p>{{item.publishdate | dateFormat}}</p>
                 </div>
               </div>
+              <div class="list-item-content" v-text="item.desc">
+              </div>
+              <div class="item-img" @click="goArticle(item._id)">
+
+                <img v-if=item.picArr[0] :src=item.picArr[0]>
+                <img  v-else src="https://only1314.cn/static/images/bg_2.jpg">
+              </div>
+              <div class="list-item-footer clearfix">
+                <ul>
+                  <li @click="goArticle(item._id)">更多</li>
+                  <li>{{item.replyNums}}回复</li>
+                  <li>{{item.likeNums}}赞</li>
+                </ul>
+                <ul>
+                  <li>{{item.region}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="block textCenter mt15">
+            <el-pagination
+              v-show="pageTotal"
+              @current-change="handleCurrentChange"
+              layout="prev, pager, next"
+              :total="pageTotal" :page-size="pageSize" :current-page="currentPage">
+            </el-pagination>
+          </div>
         </div>
-        <div class="slideRight">
+        <div class="slideRight textLeft">
           <el-collapse v-model="activeName" accordion>
             <el-collapse-item title="本站主旨" name="1">
               <div>本站为纯公益性质</div>
@@ -55,7 +65,7 @@
           </el-collapse>
         </div>
       </div>
-    <sub-box></sub-box>
+    <sub-box class="textLeft"></sub-box>
     <sub-box-s1></sub-box-s1>
   </div>
 </template>
@@ -71,7 +81,10 @@
         apiBase:'',
         activeName: '1',
         isOpen:false,
-        articleLists:[]
+        articleLists:[],
+        currentPage:1,
+        pageSize:6,
+        pageTotal:0
       };
     },
     components:{'sub-box':SubBox,'sub-box-s1':SubBoxS1},
@@ -86,27 +99,41 @@
     mounted: function () {
       this.isOpen=true;
       this.$nextTick(function () {
-        this.apiBase=this.$store.state.apiLink.apiLink
-        this.$http.post(this.apiBase+'/getArticleList', {})
+        this.apiBase=this.$store.state.apiLink.apiLink;
+        this.getArticlePage(this.currentPage,this.pageSize);
+      })
+    },
+    methods:{
+      handleCurrentChange(currentPage){
+        console.log(currentPage,this.pageSize)
+        this.getArticlePage(currentPage,this.pageSize)
+      },
+      goArticle(id){
+        this.$store.commit('setArticleId', id);
+        this.$router.push({ path: '/article' })
+      },
+      getArticlePage:function (currentPage,pageSize) {
+        var data={
+            currentPage:currentPage,
+            pageSize:pageSize
+        }
+        this.$http.post(this.apiBase+'/getArticleList', data)
           .then(response => {
-              console.log(response)
+            console.log(response)
             this.articleLists=response.data.data;
-           /* this.$store.commit('setArticle', JSON.stringify(this.articleLists));*/
+            this.pageTotal=response.data.count;
+            console.log("32323",this.pageTotal)
+            /* this.$store.commit('setArticle', JSON.stringify(this.articleLists));*/
             // success callback
           }, response => {
             console.log("no")
           })
-      })
-    },
-    methods:{
-      goArticle(id){
-        this.$store.commit('setArticleId', id);
-        this.$router.push({ path: '/article' })
       }
     }
   }
 </script>
 <style scoped>
+
   .test{
     display: inline-flex;
     flex-wrap: wrap;
@@ -118,11 +145,10 @@
     position: relative;
     overflow: hidden;
     margin-top: -21px;
-    text-align: left;
 
   }
   .box{
-    background-color:#333333 ;
+    background-color:#333333;
   }
   .slideLeft {
     overflow: hidden;
@@ -160,11 +186,11 @@
   }
   .item-head{
     padding: 20px 20px 0px 20px;
+    position: relative;
   }
 
   .list-item-content{
     /* padding: 10px 0px; */
-    line-height: 1.3;
     /* margin: 10px 0px; */
     color: #999999;
     font-size: 12px;
@@ -224,7 +250,11 @@
     float: left;
   }
   .item-head-info{
-    float: left;
+
+   /* float: left;*/
+    position: absolute;
+    left: 80px;
+    right: 0px;
     height: 60px;
     padding-top: 10px;
     box-sizing: border-box;
@@ -233,8 +263,37 @@
   .item-head-info h3{
     font-size: 14px;
     font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+
   }
   .item-head-info p{
     color: #999;
+  }
+</style>
+<style>
+  /*分页*/
+  .el-pager li{
+    background: rgba(255,255,255,1);
+    font-size: 13px;
+    min-width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    margin: 0px 5px;
+    border-radius: 100px;
+    border: 2px solid #ffffff;
+  }
+  .el-pagination .btn-next, .el-pagination .btn-prev{
+    border-radius: 50px;
+    margin: 0 5px;
+  }
+  .el-pager li.active{
+    border-color: #ff4163;
+    background-color: #ff4163;
+    color: #fff;
+    cursor: default;
   }
 </style>

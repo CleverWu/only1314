@@ -18,13 +18,13 @@
       <section class="tips clearfix">
         <ul class="leftBar">
           <!-- <li v-html="article.region">互联网</li>-->
-          <li>互联网</li>
-          <li>财务</li>
+          <li>{{article.region}}</li>
+          <!--<li>财务</li>-->
         </ul>
         <ul class="rightBar">
           <li>作者：<span v-html="article.author"></span></li>
           <li>{{article.replyNums}}回复</li>
-          <li class="like" @click="heart($event)"><i class="iconfont icon-xin mr5"></i>{{article.likeNums}}</li>
+          <li class="like" @click="heart($event)"><i class="iconfont icon-xin1 t-FF9797 mr5"></i>{{article.likeNums}}</li>
         </ul>
       </section>
       <div class="replyBox">
@@ -404,6 +404,9 @@
   }
 </script>
 <style scoped>
+  .t-FF9797{
+    color: #FF9797;
+  }
   .block {
     display: block !important;
   }

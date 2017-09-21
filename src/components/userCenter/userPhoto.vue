@@ -47,7 +47,7 @@
           type:'switchPhoto'
         }
         console.log(data)
-        this.$http.post(this.apiBase+'/userCenter', data)
+        this.$http.post(this.apiBase+'/apiUsers/userCenter', data)
         /* this.$http.post('http://localhost:8081/publish', data)*/
           .then(response => {
             if (response.data.status == '200') {

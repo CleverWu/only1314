@@ -145,14 +145,14 @@
       console.log("id", this.articleId);
       this.$nextTick(function () {
         this.apiBase = this.$store.state.apiLink.apiLink;
-        this.$http.post(this.apiBase + '/getArticle', {aid: this.articleId})
+        this.$http.post(this.apiBase + '/apiArticles/getArticle', {aid: this.articleId})
           .then(response => {
             console.log("获取文章", response.data.data)
             this.article = response.data.data
           }, response => {
             console.log("no")
           })
-        this.$http.post(this.apiBase + '/getComments', {aid: this.articleId})
+        this.$http.post(this.apiBase + '/apiComments/getComments', {aid: this.articleId})
           .then(response => {
             this.comments = response.data.data;
             var comments1 = JSON.parse(JSON.stringify(this.comments))
@@ -269,7 +269,7 @@
         function randomColor() {
           return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
         }
-        this.$http.post(this.apiBase + '/addLike', {aid:this.article._id})
+        this.$http.post(this.apiBase + '/apiArticles/addLike', {aid:this.article._id})
           .then(response => {
               handle.tips_success(this,'点赞成功!')
             this.article.likeNums=this.article.likeNums+1;
@@ -289,7 +289,7 @@
             sub_re_cid: '0',
             sub_re_uid:'0'
           }
-          this.$http.post(this.apiBase + '/z_reply', data)
+          this.$http.post(this.apiBase + '/apiComments/z_reply', data)
             .then(response => {
               this.loading2 = false;
               handle.tips_success(this, '回复成功(〃"▽"〃)')
@@ -297,7 +297,7 @@
               this.f_comments.push(response.data.data);
               /* this.$store.commit('setArticle', JSON.stringify(response.data.data.all));*/
               this.z_text = '';
-              this.$http.post(this.apiBase + '/addReplyNum', {aid:this.article._id})
+              this.$http.post(this.apiBase + '/apiArticles/addReplyNum', {aid:this.article._id})
                 .then(response => {
                   this.article.replyNums=this.article.replyNums+1;
                 }, response => {
@@ -323,7 +323,7 @@
             sub_re_uid: this.curr_sub_re_uid
           }
           console.log("提交的回复",data)
-          this.$http.post(this.apiBase + '/s_reply', data)
+          this.$http.post(this.apiBase + '/apiComments/s_reply', data)
             .then(response => {
               this.loading1 = false;
               handle.tips_success(this, '回复成功(〃"▽"〃)')
@@ -339,7 +339,7 @@
               this.s_text = '';
               $(".replyText").fadeOut(0);
               $(".z-reply").html("回复");
-              this.$http.post(this.apiBase + '/addReplyNum', {aid:this.article._id})
+              this.$http.post(this.apiBase + '/apiArticles/addReplyNum', {aid:this.article._id})
                 .then(response => {
                     this.article.replyNums=this.article.replyNums+1;
                 }, response => {

@@ -105,7 +105,7 @@
             this.noAnswer=false;
             this.searchList=[];
           }else{
-            this.$http.post(this.apiBase+'/articleSearchList', data)
+            this.$http.post(this.apiBase+'/apiArticles/articleSearchList', data)
               .then(response => {
                 console.log(response.data)
                 if(response.data.status==-1){

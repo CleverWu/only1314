@@ -117,7 +117,7 @@
             currentPage:currentPage,
             pageSize:pageSize
         }
-        this.$http.post(this.apiBase+'/getArticleList', data)
+        this.$http.post(this.apiBase+'/apiArticles/getArticleList', data)
           .then(response => {
             console.log(response)
             this.articleLists=response.data.data;
@@ -201,7 +201,7 @@
     overflow: hidden;
     margin: 10px 0px;
     padding: 0px 20px;
-    min-height: 30px;
+    min-height: 48px;
 
   }
   .item-img{

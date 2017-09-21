@@ -36,7 +36,7 @@
       }
       var _this = this;
       this.intervalid1 = setInterval(function () {
-        _this.$http.post(_this.apiBase+'/isActiveSuccess', data)
+        _this.$http.post(_this.apiBase+'/apiEmails/isActiveSuccess', data)
           .then(response => {
             if (response.data.status == '200') {
               console.log(response.data.data)
@@ -117,7 +117,7 @@
           hash: this.hash
         }
         console.log(this.$store.state.userInfo.userInfo)
-        this.$http.post(this.apiBase+'/activeEmail', data)
+        this.$http.post(this.apiBase+'/apiEmails/activeEmail', data)
           .then(response => {
               if(response.data.status==200){
                 handle.tips_success(this,'邮件发送成功，请注意查收(〃"▽"〃)')

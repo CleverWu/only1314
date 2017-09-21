@@ -151,7 +151,7 @@
             password:this.regist.pwd,
             email:this.regist.email
           }
-          this.$http.post(this.apiBase+'/regist', data)
+          this.$http.post(this.apiBase+'/apiUsers/regist', data)
             .then(response => {
                 if(response.data.status=='200'){
                   this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
@@ -180,7 +180,7 @@
             username:this.login.username,
             password:this.login.pwd
           }
-          this.$http.post(this.apiBase+'/login', data)
+          this.$http.post(this.apiBase+'/apiUsers/login', data)
          /* this.$http.post('http://localhost:8081/login', data)*/
             .then(response => {
               if(response.data.status=='200'){

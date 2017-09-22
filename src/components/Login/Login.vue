@@ -165,7 +165,7 @@
                     _this.$router.push({ path: '/activeEmail' })
                   },1000)
                 }else{
-                    handle.tips_warn(this,"用户名已存在o(╥﹏╥)o")
+                    handle.tips_warn(this,response.data.message+"(╥﹏╥)o")
                 }
               // success callback
             }, response => {

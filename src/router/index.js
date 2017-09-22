@@ -30,6 +30,9 @@ const userPhoto= resolve=> {
 const account= resolve=> {
   require(['../components/userCenter/account.vue'], resolve)
 };
+const welcomeUser= resolve=> {
+    require(['../components/userCenter/welcomeUser.vue'], resolve)
+};
 const commonTopBar= resolve=> {
   require(['../components/Header/commonTopBar.vue'], resolve)
 };
@@ -84,12 +87,15 @@ export default new Router({
           component: userPhoto
         },
         {
-          // 当 /user/:id/posts 匹配成功
-          // UserPosts 会被渲染在 User 的 <router-view> 中
           path: 'account',
           name:'account',
           component: account
-        }
+        },
+          {
+              path: 'welcomeUser',
+              name:'welcomeUser',
+              component: welcomeUser
+          }
       ]
     }
   ]

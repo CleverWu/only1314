@@ -4,9 +4,13 @@
     <div class="bottom">
       <div class="leftBar">
         <ul>
-          <li><router-link to="/userCenter/userPhoto">头像</router-link></li>
-          <li><router-link to="/userCenter/account">账户</router-link></li>
-          <li><router-link to="/userCenter/userPhoto">我的文章</router-link></li>
+          <li @click="barActive('photo')"  class="photo">
+            <el-tooltip class="item" effect="dark" content="更换头像" placement="right"><router-link to="/userCenter/userPhoto" replace><img v-bind:class="barShow=='photo'?'photoActive':''" src="/static/images/photo.png"></router-link> </el-tooltip>
+         </li>
+          <li @click="barActive('account')" >
+            <el-tooltip class="item" effect="dark" content="账户设置" placement="right"><router-link to="/userCenter/account" replace>  <i v-bind:class="barShow=='account'?'active':''" class="iconfont icon-zhanghuguanli"></i> </router-link></el-tooltip>
+          </li>
+          <!--<li><router-link to="/userCenter/userPhoto" replace>我的文章</router-link></li>-->
         </ul>
       </div>
       <div class="rightBar">
@@ -22,13 +26,21 @@
   export default{
       data(){
           return{
-            websiteInfo: '个人中心-简易版 （下一步优化）'
+            websiteInfo: '欢迎来到个人中心',
+              userInfo:JSON.parse(this.$store.state.userInfo.userInfo),
+              barShow:''
           }
       },
     components: {'common-top-bar': commonTopBar},
+     methods:{
+          barActive(name){
+              this.barShow=name;
+          }
+     }
   }
 </script>
 <style scoped>
+  .userCenter{}
   .userCenter-info{
     width: 100%;
     height: 70px;
@@ -47,15 +59,50 @@
     width: 100%;
     top: 70px;
     bottom: 0px;
-    background-color: salmon;
+   /* background-color: salmon;*/
   }
   .leftBar{
-    width: 120px;
-    background-color: #00a0ee;
+    width:75px;
+   /* background-color: #00a0ee;*/
     position: fixed;
     height: 100%;
+    border-right:1px solid #dddddd ;
+    box-shadow: 3px 0px 2px #999999;
   }
   .rightBar{
-    margin-left: 120px;
+    margin-left: 75px;
+    height: 100%;
+  }
+  .leftBar ul li{
+    width: 100%;
+    height: 45px;
+  /*  background-color: salmon;*/
+    margin: 25px auto;
+    line-height: 45px;
+    position: relative;
+  }
+  .leftBar ul li i.active{
+    color: #1c8de0;
+  }
+  .leftBar ul li img.photoActive{
+    border: 2px solid #1c8de0;
+    padding: 2px;
+  }
+
+  .leftBar ul li:hover *{
+    color: #ff4163;
+  }
+  .leftBar .photo img{
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto;
+    width: 45px;
+    height:45px;
+    border-radius: 100px;
+  }
+  a{text-decoration: none;display: inline-block;width: 100%}
+  .iconfont{
+    font-size: 40px;
+    color: #1f2d3d;
   }
 </style>

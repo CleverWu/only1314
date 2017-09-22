@@ -1,27 +1,18 @@
 <template>
-  <div>
-    <el-form ref="form" label-width="80px">
-      <el-form-item label="图片">
-        <ul class="publish-pic clearfix" id="js-imgGroupUl">
-          <li v-for="pic in picNums"><img :src="pic"><i class="iconfont icon-xx"></i></li>
+  <div class="userPhoto">
+        <ul class="publish-pic" id="js-imgGroupUl">
+          <li class="userPic" v-for="pic in picNums"><img :src="pic"><i class="iconfont icon-xx"></i></li>
           <li id="js-upload-img">
-            <div class="plus"><input @change="showPre($event)" type="file">
-              <p>+</p></div>
+            <div class="plus b-11b95c"><input @change="showPre($event)" type="file"><p>点我选择</p></div>
+            <div @click="onSubmit" class="plus b-4db3ff"><p>确定提交</p></div>
           </li>
         </ul>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">发布</el-button>
-        <el-button>取消</el-button>
-      </el-form-item>
-    </el-form>
+
   </div>
 </template>
 <script>
   import Vue from "vue";
-  import Router from 'vue-router';
   import handle from '../../CommonJs/CommonJs'
-  var router = new Router();
   export default {
     data() {
       return {
@@ -47,7 +38,7 @@
           type:'switchPhoto'
         }
         console.log(data)
-        this.$http.post(this.apiBase+'/apiUsers/userCenter', data)
+        this.$http.post(this.apiBase+'/apiUsers/mUserPhoto', data)
         /* this.$http.post('http://localhost:8081/publish', data)*/
           .then(response => {
             if (response.data.status == '200') {
@@ -89,15 +80,28 @@
   }
 </script>
 <style>
+  .userPhoto{
+     /* background: url("/static/images/bg_userCenter.jpg") no-repeat center;
+      background-size: cover;*/
+      height: 100%;
+    text-align: center;
+      overflow: hidden;
+  }
+  .userPhoto ul{
+    width: 120px;
+    margin: 100px auto 30px auto;
+  }
   .publish-pic {
     width: 100%
   }
-
-  .publish-pic li {
+  .publish-pic li{
     width: 120px;
-    height: 120px;
-    float: left;
     margin: 5px;
+  }
+  .publish-pic li.userPic {
+
+    height: 120px;
+
 
   }
 
@@ -111,27 +115,44 @@
 
   .plus {
     width: 120px;
-    height: 120px;
+    height: 30px;
     position: relative;
-    border: 1px dashed #dddddd;
+    border-radius: 10px;
+    color: #ffffff;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin: 10px 0;
+   /* cursor: pointer;*/
+
   }
+  .b-11b95c{
+    background-color: #11b95c;
+  }
+  .b-4db3ff{ background-color: #4db3ff;}
 
   .plus input {
-    width: 120px;
-    height: 120px;
+    width: 200px;
+    height: 30px;
     opacity: 0;
-    position: relative;
+    left: -70px;;
+    top:0;
     z-index: 10;
     cursor: pointer;
+    position: absolute;
+
   }
 
   .plus p {
     position: absolute;
-    font-size: 69px;
-    top: 39px;
-    left: 39px;
+    font-size: 12px;
+    top: 4px;
+    font-weight: 600;
+    width: 120px;
+    left: 0px;
+    height: 100%;
     z-index: 5;
-    cursor: pointer;
+   /* cursor: pointer;*/
   }
+
 
 </style>

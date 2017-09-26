@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">Copyright © 2016-2017 为您一生一世的守护 only1314.cn All Rights Reserved.</footer>
+  <footer class="footer">Copyright © 2016-2017 仅此一生,唯你一世 only1314.cn All Rights Reserved.</footer>
 </template>
 <style>
   footer{

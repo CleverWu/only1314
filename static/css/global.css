@@ -220,3 +220,25 @@ i, em, strong { font-style:normal;}
 .ui-heart:before {
   left: -5px;
 }
+/*谷歌浏览器滚动条美化*/
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+
+} /* 这是针对缺省样式 (必须的) */
+::-webkit-scrollbar-track {
+  background-color: rgba(255,255,255,0.6);
+} /* 滚动条的滑轨背景颜色 */
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 1);
+  border-radius: 10px;
+} /* 滑块颜色 */
+
+/*::-webkit-scrollbar-button {
+  background-color: rgba(0,0,0,0);
+}*/ /* 滑轨两头的监听按钮颜色 */
+
+::-webkit-scrollbar-corner {
+  background-color: rgba(0,0,0,1);
+} /* 横向滚动条和纵向滚动条相交处尖角的颜色 */

@@ -65,7 +65,6 @@
           </el-collapse>
         </div>
       </div>
-    <sub-box class="textLeft"></sub-box>
     <sub-box-s1></sub-box-s1>
   </div>
 </template>

@@ -33,7 +33,7 @@ var handle = {
     _this.$notify({
       title: title,
       message: message,
-      duration:2000,
+      duration:10000,
       offset: 150,
       iconClass:cs,
       customClass:bg

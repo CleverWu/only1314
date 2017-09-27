@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="slideRight textLeft">
-          <el-collapse v-model="activeName" accordion>
+          <!--<el-collapse v-model="activeName" accordion>
             <el-collapse-item title="本站主旨" name="1">
               <div>本站为纯公益性质</div>
               <div>在于打造为反应各个公司信誉的平台</div>
@@ -62,7 +62,41 @@
             <el-collapse-item title="最新" name="4">
               希望大家真实举报，也可以发布一些比较好的公司信息,供大家参考
             </el-collapse-item>
-          </el-collapse>
+          </el-collapse>-->
+          <ul class="collapse">
+            <li>
+              <div class="collapse-title b-FBC421" v-bind:class="showColl==1?'boder-bottom-none':''" @click="showColl=1"><i></i><span>本站性质</span></div>
+              <div class="collapse-content" v-show="showColl==1">
+                <div>本站为纯公益性质</div>
+                <div>在于打造为反应各个公司信誉的平台</div>
+                <div>用户可以根据情况发布自己在求职过程中遭遇的不公平待遇</div>
+                <div>举报不诚信公司，为后面的求职者，也包括自己提供一个好的求职环境</div>
+              </div>
+            </li>
+            <li>
+              <div class="collapse-title b-5CB6D0" v-bind:class="showColl==2?'boder-bottom-none':''" @click="showColl=2"><i></i><span>开通栏目</span></div>
+              <div class="collapse-content" v-show="showColl==2">
+               <div> 目前主要开通对财务及互联网行业公司的举报</div>
+              </div>
+            </li>
+            <li>
+              <div class="collapse-title b-A796C3" v-bind:class="showColl==3?'boder-bottom-none':''" @click="showColl=3"><i></i><span>想联系我</span></div>
+              <div class="collapse-content" v-show="showColl==3">
+                <div>
+                  如果你有好的建议，请联系我：
+                </div>
+                <div style="font-size: 14px;">
+                  mail:admin@only1314.cn
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="collapse-title b-FF5061" v-bind:class="showColl==4?'boder-bottom-none':''" @click="showColl=4"><i></i><span>最新公告</span></div>
+              <div class="collapse-content" v-show="showColl==4">
+                <div> 希望大家真实举报，也可以发布一些比较好的公司信息,供大家参考</div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     <sub-box-s1></sub-box-s1>
@@ -78,12 +112,13 @@
     data() {
       return {
         apiBase:'',
-        activeName: '1',
+        /*activeName: '1',*/
         isOpen:false,
         articleLists:[],
         currentPage:1,
         pageSize:6,
-        pageTotal:0
+        pageTotal:0,
+        showColl:1
       };
     },
     components:{'sub-box':SubBox,'sub-box-s1':SubBoxS1},
@@ -132,7 +167,41 @@
   }
 </script>
 <style scoped>
-
+  .collapse{width: 100%}
+  .collapse li{margin-bottom: 15px}
+  .collapse .collapse-title{
+    color: #ffffff;
+    width: 100%;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .b-FBC421{
+    background-color: #FBC421;
+  }
+  .b-A796C3{
+    background-color: #A796C3;
+  }
+  .b-5CB6D0{
+    background-color: #5CB6D0;
+  }
+  .b-FF5061{
+    background-color: #FF5061;
+  }
+  .collapse .collapse-content{
+    background-color: rgba(255,255,255,0.2);
+    color: #ffffff;
+    border-bottom-right-radius:10px;
+    border-bottom-left-radius:10px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+  }
+  .boder-bottom-none{
+    border-bottom-right-radius:0px!important;
+    border-bottom-left-radius:0px!important;
+  }
   .test{
     display: inline-flex;
     flex-wrap: wrap;

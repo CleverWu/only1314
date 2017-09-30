@@ -100,7 +100,6 @@
                   uid:this.userInfo._id,
                   email:this.account.newEmail
                 }
-                console.log("提交的data",data)
                 this.$http.post(this.apiBase+'/apiUsers/mEmail', data)
                 /* this.$http.post('http://localhost:8081/publish', data)*/
                   .then(response => {

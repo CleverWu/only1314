@@ -1,8 +1,20 @@
 <template>
   <div class="subBoxS1">
     <el-carousel :interval="4000" type="card">
-      <el-carousel-item v-for="item in 6" :key="item">
-        <h3>敬请期待</h3>
+      <el-carousel-item>
+        <div class="img_bar">
+          <img src="/static/images/img_bar1.jpg">
+        </div>
+      </el-carousel-item>
+      <el-carousel-item>
+        <div class="img_bar">
+          <img src="/static/images/img_bar2.jpg">
+        </div>
+      </el-carousel-item>
+      <el-carousel-item>
+        <div class="img_bar">
+          <img src="/static/images/bg_userCenter.jpg">
+        </div>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -17,6 +29,10 @@
   }
 </script>
 <style scoped>
+  .img_bar{width: 100%}
+  .img_bar img{
+    width: 100%;
+  }
   .subBoxS1{
     padding: 0px 20px;
     width: 100%;

@@ -15,7 +15,7 @@
               </div>
               <div class="item-img" @click="goArticle(item._id)">
 
-                <img v-if=item.picArr[0] :src=item.picArr[0]>
+                <img v-if=item.picArr[0] :src=item.picArr[0] alt="文章简介图">
                 <img  v-else src="https://only1314.cn/static/images/bg_2.jpg">
               </div>
               <div class="list-item-footer clearfix">

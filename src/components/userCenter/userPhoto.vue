@@ -7,6 +7,7 @@
             <div @click="onSubmit" class="plus b-4db3ff"><p>确定提交</p></div>
           </li>
         </ul>
+    <img :src="s">
 
   </div>
 </template>
@@ -16,10 +17,17 @@
   export default {
     data() {
       return {
+          s:'',
         apiBase:'',
         picNums: [JSON.parse(this.$store.state.userInfo.userInfo).userPhoto],
-        pic:JSON.parse(this.$store.state.userInfo.userInfo).userPhoto.substr(20),
-        userInfo:JSON.parse(this.$store.state.userInfo.userInfo)
+        pic:JSON.parse(this.$store.state.userInfo.userInfo).userPhoto.substr(27)
+      }
+    },
+    computed: {
+      // a computed getter
+      userInfo: function () {
+        // `this` points to the vm instance
+        return JSON.parse(this.$store.state.userInfo.userInfo)
       }
     },
     mounted:function () {
@@ -30,20 +38,23 @@
     },
     methods: {
       onSubmit() {
+        var regExp = /\?.*/g;
+        var str = this.pic;
+        str = str.replace( regExp, "" )
         var data = {
           username: this.userInfo.username,
           uid:this.userInfo._id,
           picArr: this.picNums,
-          pic:this.pic,
+          pic:str,
           type:'switchPhoto'
         }
-        console.log(data)
         this.$http.post(this.apiBase+'/apiUsers/mUserPhoto', data)
         /* this.$http.post('http://localhost:8081/publish', data)*/
           .then(response => {
             if (response.data.status == '200') {
-                console.log(response.data.data)
-              this.$store.commit('setUserInfo',JSON.stringify(response.data.data));
+              var info=response.data.data;
+              info.userPhoto=info.userPhoto+'?='+Math.random();
+              this.$store.dispatch('setUserInfo',JSON.stringify(info));
               handle.tips_success(this, '头像更换成功(〃"▽"〃)')
             } else {
               handle.tips_warn(this, response.data.message)

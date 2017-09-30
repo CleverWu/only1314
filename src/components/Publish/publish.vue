@@ -148,6 +148,7 @@
   }
 </script>
 <style scoped>
+  .el-col-2{text-align: center}
   .publish-pic {
     width: 100%
   }

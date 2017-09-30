@@ -5,7 +5,7 @@
       <div class="leftBar">
         <ul>
           <li @click="barActive('photo')"  class="photo">
-            <el-tooltip class="item" effect="dark" content="更换头像" placement="right"><router-link to="/userCenter/userPhoto" replace><img v-bind:class="barShow=='photo'?'photoActive':''" src="/static/images/photo.png"></router-link> </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="更换头像" placement="right"><router-link to="/userCenter/userPhoto" replace><img v-bind:class="barShow=='photo'?'photoActive':''" :src=JSON.parse(userPhoto).userPhoto></router-link> </el-tooltip>
          </li>
           <li @click="barActive('account')" >
             <el-tooltip class="item" effect="dark" content="账户设置" placement="right"><router-link to="/userCenter/account" replace>  <i v-bind:class="barShow=='account'?'active':''" class="iconfont icon-zhanghuguanli"></i> </router-link></el-tooltip>
@@ -31,6 +31,13 @@
               barShow:''
           }
       },
+    computed: {
+      // a computed getter
+      userPhoto: function () {
+        // `this` points to the vm instance
+        return this.$store.state.userInfo.userInfo
+      }
+    },
     components: {'common-top-bar': commonTopBar},
      methods:{
           barActive(name){

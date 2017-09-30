@@ -12,6 +12,11 @@ mutations: {
     localStorage.removeItem('userInfo');
   }
 
-}
+},
+  actions: {
+    setUserInfo ({ commit },info) {
+      commit('setUserInfo',info)
+    }
+  }
 }
 export default userInfo
